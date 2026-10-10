@@ -474,7 +474,7 @@ table { font-size: .95rem; }
 /* menu */
 .nav .wrap { min-height: 64px; padding-top: env(safe-area-inset-top, 0px); }
 .nav .btn { font-size: .875rem; padding: 0 1.25rem; min-height: 40px; }
-.nav-links a { font-size: .875rem; }
+.nav-links a { font-size: .875rem; font-weight: 400; }
 .logo { font-size: 1.2rem; }
 .burger { display: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, .04); cursor: pointer; place-items: center; padding: 0; position: relative; }
 .burger span { position: absolute; left: 13px; right: 13px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .25s ease, top .25s ease, opacity .2s ease; }
@@ -495,8 +495,8 @@ table { font-size: .95rem; }
 @media (min-width: 1024px) { .hero .lead { font-size: 1.125rem; } }
 
 /* velké monitory */
-@media (min-width: 1600px) { :root { --wrap: 1280px; } html { font-size: 17px; } }
-@media (min-width: 2200px) { :root { --wrap: 1480px; } html { font-size: 19px; } }
+@media (min-width: 1400px) { :root { --wrap: 1280px; } }
+@media (min-width: 1900px) { :root { --wrap: 1340px; } }
 
 /* notebook / malý monitor */
 @media (max-width: 1100px) { .programs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
