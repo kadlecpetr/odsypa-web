@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI systémy na míru pro české firmy: automatizace faktur, poptávek, zákaznické podpory i náboru.">
+<title>Odsýpá – AI automatizace firem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: indigo-ink pracovní dokument; hero = živá fronta úkolů, jinak střídmé sekce na mřížce 12 sloupců. Žlutá = písek v přesýpacích hodinách / zvýrazňovač. */
+:root {
+  --bg: #F2F4F8;
+  --surface: #FFFFFF;
+  --ink: #101A3A;
+  --muted: #56607E;
+  --line: #D6DBE7;
+  --sand: #FFCE3A;
+  --sand-ink: #101A3A;
+  --ok: #1E8A5A;
+  --ok-bg: #E2F3EA;
+  --night: #101A3A;
+  --night-fg: #EEF1F8;
+  --night-muted: #A3ACC6;
+  --night-line: #2A3560;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --wrap: 1180px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1028; --surface: #121A3C; --ink: #E9EDF8; --muted: #9AA4C2; --line: #263160;
+    --sand: #FFCE3A; --sand-ink: #101A3A; --ok: #5BD49A; --ok-bg: #133A2E;
+    --night: #050A1C; --night-fg: #EEF1F8; --night-muted: #9AA4C2; --night-line: #222C55;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1028; --surface: #121A3C; --ink: #E9EDF8; --muted: #9AA4C2; --line: #263160;
+  --sand: #FFCE3A; --sand-ink: #101A3A; --ok: #5BD49A; --ok-bg: #133A2E;
+  --night: #050A1C; --night-fg: #EEF1F8; --night-muted: #9AA4C2; --night-line: #222C55;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--sand); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+h1, h2, h3 { font-family: var(--display); font-stretch: 112%; line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(2rem, 4.4vw, 3.3rem); font-weight: 800; }
+h3 { font-size: 1.3rem; font-weight: 700; font-stretch: 100%; line-height: 1.2; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+mark { background: linear-gradient(transparent 58%, var(--sand) 58%, var(--sand) 92%, transparent 92%); color: inherit; padding-inline: .06em; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5em; justify-content: center;
+  font-family: var(--body); font-weight: 600; font-size: 1rem; text-decoration: none;
+  padding: .85em 1.35em; border-radius: 999px; border: 2px solid var(--ink); cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.btn-primary { background: var(--sand); color: var(--sand-ink); border-color: var(--sand); }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--surface); }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 66px; }
+.logo { display: inline-flex; align-items: center; gap: .5em; text-decoration: none; font-family: var(--display); font-weight: 800; font-stretch: 118%; font-size: 1.35rem; letter-spacing: -.02em; }
+.logo svg { width: 22px; height: 26px; flex: none; }
+.nav-links { display: flex; gap: 26px; font-size: .95rem; }
+.nav-links a { text-decoration: none; color: var(--muted); }
+.nav-links a:hover { color: var(--ink); }
+.nav .btn { padding: .6em 1.1em; font-size: .92rem; }
+@media (max-width: 900px) { .nav-links { display: none; } }
+
+/* hero */
+.hero { padding-block: clamp(48px, 8vw, 96px) clamp(40px, 6vw, 72px); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+.hero h1 { font-size: clamp(2.5rem, 6.2vw, 5rem); font-weight: 900; font-stretch: 118%; }
+.hero-copy { display: grid; gap: 26px; min-width: 0; }
+.hero .lead { font-size: clamp(1.08rem, 1.6vw, 1.25rem); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.motto { font-family: var(--mono); font-size: .9rem; color: var(--muted); display: flex; gap: .6em; align-items: center; }
+.motto::before { content: ""; width: 28px; height: 2px; background: var(--sand); }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
+
+/* queue widget */
+.queue { background: var(--night); color: var(--night-fg); border-radius: 18px; padding: 20px; min-width: 0; box-shadow: 0 30px 60px -30px rgba(16, 26, 58, .55); }
+.queue-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--night-line); font-family: var(--mono); font-size: .78rem; color: var(--night-muted); text-transform: uppercase; letter-spacing: .08em; }
+.queue-head .live { display: inline-flex; align-items: center; gap: .45em; }
+.queue-head .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--sand); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+.q-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.q-item { display: grid; grid-template-columns: 3.4em minmax(0, 1fr); gap: 4px 12px; padding-block: 12px; border-bottom: 1px dashed var(--night-line); font-size: .9rem; line-height: 1.4; }
+.q-item:last-child { border-bottom: 0; }
+.q-time { font-family: var(--mono); color: var(--night-muted); font-size: .8rem; padding-top: 2px; }
+.q-what { min-width: 0; }
+.q-what b { font-weight: 500; }
+.q-res { grid-column: 2; font-family: var(--mono); font-size: .78rem; color: var(--night-muted); display: flex; gap: .5em; align-items: center; flex-wrap: wrap; }
+.q-res .st { color: var(--sand); }
+.q-res .st.done { color: #6FE0A8; }
+.q-item.enter { animation: slidein .5s ease both; }
+@keyframes slidein { from { opacity: .2; transform: translateY(-8px); } }
+.queue-foot { margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--night-line); display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
+.queue-foot .lbl { font-family: var(--mono); font-size: .75rem; color: var(--night-muted); text-transform: uppercase; letter-spacing: .08em; }
+.queue-foot .val { font-family: var(--display); font-stretch: 112%; font-weight: 800; font-size: 1.9rem; color: var(--sand); font-variant-numeric: tabular-nums; line-height: 1; }
+.queue-note { font-size: .74rem; color: var(--night-muted); font-family: var(--mono); }
+@media (prefers-reduced-motion: reduce) { .q-item.enter, .queue-head .live::before { animation: none; } }
+
+/* tools strip */
+.tools { border-block: 1px solid var(--line); padding-block: 22px; }
+.tools .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; }
+.tools .eyebrow { margin-right: 8px; }
+.tools span.t { font-family: var(--display); font-stretch: 100%; font-weight: 600; color: var(--muted); font-size: 1.02rem; }
+
+section.block { padding-block: clamp(64px, 9vw, 120px); }
+.sec-head { display: grid; gap: 18px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 780px; }
+
+/* systems tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.tab { font: 600 .95rem var(--body); padding: .6em 1.1em; border-radius: 999px; border: 1.5px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+.tab:hover { color: var(--ink); border-color: var(--ink); }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 4vw, 48px); }
+.panel h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-stretch: 112%; font-weight: 800; margin-bottom: 14px; }
+.panel .desc { color: var(--muted); margin-bottom: 22px; max-width: 52ch; }
+.panel ul.gone { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.panel ul.gone li { display: flex; gap: .7em; }
+.panel ul.gone li::before { content: "–"; color: var(--muted); font-family: var(--mono); }
+.gone-title { font-family: var(--mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 10px; }
+.flow { display: grid; gap: 0; align-content: start; min-width: 0; }
+.flow-step { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; position: relative; padding-bottom: 22px; }
+.flow-step:last-child { padding-bottom: 0; }
+.flow-step:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 36px; bottom: 0; width: 2px; background: var(--line); }
+.flow-dot { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: .8rem; font-weight: 500; background: var(--bg); border: 1.5px solid var(--line); }
+.flow-step:last-child .flow-dot { background: var(--sand); color: var(--sand-ink); border-color: var(--sand); }
+.flow-step b { display: block; font-weight: 600; padding-top: 5px; }
+.flow-step span { color: var(--muted); font-size: .95rem; }
+@media (max-width: 800px) { .panel { grid-template-columns: minmax(0, 1fr); } }
+
+/* process */
+.process { background: var(--night); color: var(--night-fg); }
+.process .eyebrow, .process .lead { color: var(--night-muted); }
+.phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--night-line); }
+.phase { padding: 28px 24px 8px 0; display: grid; gap: 12px; align-content: start; border-right: 1px solid var(--night-line); padding-left: 24px; }
+.phase:first-child { padding-left: 0; }
+.phase:last-child { border-right: 0; }
+.phase .num { font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 3.2rem; line-height: 1; color: var(--sand); }
+.phase .dur { font-family: var(--mono); font-size: .78rem; color: var(--night-muted); text-transform: uppercase; letter-spacing: .08em; }
+.phase p { color: var(--night-muted); font-size: .97rem; }
+.phase .out { font-size: .92rem; color: var(--night-fg); border-top: 1px dashed var(--night-line); padding-top: 12px; margin-top: 4px; }
+.phase .out em { font-style: normal; font-family: var(--mono); font-size: .74rem; color: var(--sand); text-transform: uppercase; letter-spacing: .08em; display: block; margin-bottom: 2px; }
+@media (max-width: 900px) {
+  .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phase { padding-left: 0; padding-right: 20px; border-right: 0; border-bottom: 1px solid var(--night-line); padding-bottom: 24px; }
+  .phase:nth-child(even) { padding-left: 20px; padding-right: 0; border-left: 1px solid var(--night-line); }
+}
+@media (max-width: 560px) {
+  .phases { grid-template-columns: minmax(0, 1fr); }
+  .phase:nth-child(even) { padding-left: 0; border-left: 0; }
+}
+
+/* calculator */
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--surface); }
+.calc-in { padding: clamp(22px, 4vw, 44px); display: grid; gap: 26px; }
+.field { display: grid; gap: 8px; }
+.field-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.field label { font-weight: 600; }
+.field output { font-family: var(--mono); font-size: .95rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.field small { color: var(--muted); font-size: .85rem; }
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+.calc-out { background: var(--sand); color: var(--sand-ink); padding: clamp(22px, 4vw, 44px); display: grid; gap: 22px; align-content: space-between; }
+.calc-out .big { font-family: var(--display); font-stretch: 118%; font-weight: 900; font-size: clamp(2.6rem, 6vw, 4.4rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.calc-out .cap { font-family: var(--mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; }
+.calc-rows { display: grid; gap: 0; border-top: 1.5px solid currentColor; }
+.calc-rows div { display: flex; justify-content: space-between; gap: 12px; padding-block: 10px; border-bottom: 1px solid color-mix(in srgb, var(--sand-ink) 25%, transparent); font-variant-numeric: tabular-nums; }
+.calc-rows div b { font-family: var(--mono); font-weight: 500; }
+.calc-out p.fine { font-size: .82rem; opacity: .8; }
+.calc-out .btn { background: var(--sand-ink); color: var(--sand); border-color: var(--sand-ink); justify-self: start; }
+@media (max-width: 800px) { .calc { grid-template-columns: minmax(0, 1fr); } }
+
+/* before after */
+.ba { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.ba-col { border-radius: 20px; padding: clamp(22px, 3.5vw, 36px); display: grid; gap: 18px; align-content: start; }
+.ba-col.before { border: 1.5px dashed var(--line); }
+.ba-col.after { background: var(--surface); border: 1.5px solid var(--ink); }
+.ba-col h3 { display: flex; align-items: center; gap: .5em; }
+.ba-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.ba-col li { display: grid; grid-template-columns: 4.6em minmax(0, 1fr); gap: 12px; }
+.ba-col li .tm { font-family: var(--mono); font-size: .85rem; font-variant-numeric: tabular-nums; padding-top: 2px; }
+.ba-col.before li .tm { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }
+.ba-col.after li .tm { color: var(--ok); font-weight: 500; }
+@media (max-width: 800px) { .ba { grid-template-columns: minmax(0, 1fr); } }
+
+/* compare table */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; min-width: 680px; font-size: .97rem; }
+th, td { padding: 16px 18px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+thead th { font-family: var(--mono); font-weight: 500; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+thead th.us { color: var(--sand-ink); background: var(--sand); }
+td.us { background: color-mix(in srgb, var(--sand) 16%, transparent); font-weight: 600; }
+.y { color: var(--ok); font-weight: 600; }
+.n { color: var(--muted); }
+
+/* data */
+.data { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.data-card { border-top: 3px solid var(--ink); padding-top: 18px; display: grid; gap: 10px; align-content: start; }
+.data-card p { color: var(--muted); }
+@media (max-width: 800px) { .data { grid-template-columns: minmax(0, 1fr); } }
+
+/* programs */
+.programs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.prog { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: grid; gap: 14px; align-content: start; }
+.prog.featured { border: 2px solid var(--ink); }
+.prog .tag { font-family: var(--mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.prog h3 { font-size: 1.6rem; font-stretch: 112%; font-weight: 800; }
+.prog p { color: var(--muted); }
+.prog ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: .95rem; }
+.prog .price { font-family: var(--mono); font-size: .88rem; border-top: 1px dashed var(--line); padding-top: 14px; margin-top: 6px; }
+@media (max-width: 900px) { .programs { grid-template-columns: minmax(0, 1fr); } }
+
+/* faq */
+.faq-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.faq { border-top: 1.5px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; padding: 20px 40px 20px 0; font-weight: 600; font-size: 1.08rem; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 16px; font-family: var(--mono); font-size: 1.4rem; color: var(--muted); transition: transform .2s ease; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding-bottom: 22px; color: var(--muted); max-width: 62ch; }
+@media (max-width: 800px) { .faq-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* final cta */
+.final { background: var(--night); color: var(--night-fg); }
+.final .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.final .lead { color: var(--night-muted); }
+.final ul.promise { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 12px; }
+.final ul.promise li { display: flex; gap: .7em; }
+.final ul.promise li::before { content: "✓"; color: var(--sand); font-weight: 700; }
+form.lead-form { background: var(--surface); color: var(--ink); border-radius: 20px; padding: clamp(22px, 4vw, 36px); display: grid; gap: 16px; }
+.row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 520px) { .row2 { grid-template-columns: minmax(0, 1fr); } }
+.f { display: grid; gap: 6px; min-width: 0; }
+.f label { font-size: .88rem; font-weight: 600; }
+.f input, .f select, .f textarea { font: inherit; font-size: 1rem; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px; padding: .7em .85em; width: 100%; }
+.f input:focus, .f select:focus, .f textarea:focus { outline: none; border-color: var(--ink); }
+.f textarea { min-height: 92px; resize: vertical; }
+.phone { display: flex; }
+.phone span { font-family: var(--mono); font-size: .95rem; background: var(--line); border-radius: 10px 0 0 10px; padding: .75em .7em; display: grid; place-items: center; }
+.phone input { border-radius: 0 10px 10px 0; }
+.form-note { font-size: .82rem; color: var(--muted); }
+.form-msg { border-radius: 12px; padding: 14px 16px; font-size: .95rem; background: var(--ok-bg); color: var(--ink); }
+.form-err { color: #C2412D; font-size: .88rem; }
+
+footer { padding-block: 40px; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 20px 40px; justify-content: space-between; align-items: center; }
+footer nav { display: flex; flex-wrap: wrap; gap: 18px; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Odsýpá – úvod">
+      <svg viewBox="0 0 22 26" aria-hidden="true"><path d="M2 1h18M2 25h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M4 2.5h14L11 13Z" fill="currentColor"/><path d="M11 13 4 23.5h14Z" fill="#FFCE3A"/></svg>
+      odsýpá
+    </a>
+    <nav class="nav-links" aria-label="Hlavní menu">
+      <a href="#systemy">Systémy</a>
+      <a href="#postup">Jak to stavíme</a>
+      <a href="#vypocet">Výpočet úspory</a>
+      <a href="#programy">Spolupráce</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary" href="#kontakt">Domluvit audit</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">AI automatizace pro české firmy</span>
+        <h1>Rutinu ať dělá stroj. Vaši lidé ať <mark>dělají byznys.</mark></h1>
+        <p class="lead">Postavíme vám AI systémy na míru vašim procesům. Faktury, poptávky, dotazy zákazníků i nábor poběží samy. My je navrhneme, napojíme na nástroje, které už používáte, a zaučíme celý tým.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#kontakt">Domluvit úvodní audit</a>
+          <a class="btn btn-ghost" href="#systemy">Co umíme postavit</a>
+        </div>
+        <p class="motto">Lidi nenahrazujeme. Ulevíme jim od rutiny.</p>
+      </div>
+
+      <aside class="queue" aria-label="Ukázka: fronta rutinních úkolů, které zpracovává AI">
+        <div class="queue-head"><span class="live">Fronta úkolů · ukázka</span><span id="q-date">Úterý</span></div>
+        <ol class="q-list" id="q-list">
+          <li class="q-item"><span class="q-time">08:31</span><span class="q-what">Upomínka · <b>FV-2026-0388</b>, 14 dní po splatnosti</span><span class="q-res"><span class="st done">✓ odesláno</span>· 0:03</span></li>
+          <li class="q-item"><span class="q-time">08:24</span><span class="q-what">Smlouva o dílo <b>v2</b> od subdodavatele</span><span class="q-res"><span class="st done">✓ změny proti v1 vyznačeny</span>· 0:11</span></li>
+          <li class="q-item"><span class="q-time">08:17</span><span class="q-what">Životopis · pozice <b>skladník/ce</b></span><span class="q-res"><span class="st done">✓ předvybráno, shoda 82 %</span>· 0:06</span></li>
+          <li class="q-item"><span class="q-time">08:11</span><span class="q-what">Poptávka z webu · <b>Stavebniny Morava s.r.o.</b></span><span class="q-res"><span class="st done">✓ v CRM, nabídka ke schválení</span>· 0:09</span></li>
+          <li class="q-item"><span class="q-time">08:02</span><span class="q-what">Faktura přijatá · <b>48 290 Kč</b></span><span class="q-res"><span class="st done">✓ vytěženo do Pohody</span>· 0:04</span></li>
+        </ol>
+        <div class="queue-foot">
+          <div><div class="lbl">Ušetřeno lidem dnes</div><div class="val" id="q-saved">2 h 47 min</div></div>
+          <div class="queue-note">Ilustrační data</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="tools" aria-label="Nástroje, na které systémy napojujeme">
+    <div class="wrap">
+      <span class="eyebrow">Napojíme na to, co už máte</span>
+      <span class="t">Pohoda</span><span class="t">Money S3</span><span class="t">ABRA</span><span class="t">Fakturoid</span><span class="t">Shoptet</span><span class="t">Pipedrive</span><span class="t">HubSpot</span><span class="t">Outlook</span><span class="t">Gmail</span><span class="t">Teams</span><span class="t">SharePoint</span>
+    </div>
+  </div>
+
+  <section class="block" id="systemy">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Systémy, které stavíme</span>
+        <h2>Šest oblastí, kde firmy ztrácí nejvíc času</h2>
+        <p class="lead">Každý systém stavíme pro konkrétní firmu. Tady je, jak typicky vypadá.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Oblasti automatizace" id="tabs"></div>
+      <div class="panel" role="tabpanel" id="panel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="block process" id="postup">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Jak to stavíme</span>
+        <h2>Od auditu po zaučený tým</h2>
+        <p class="lead">Čtyři fáze. Žádné PDF prezentace, které skončí v šuplíku. Z každé fáze odcházíte s něčím, co funguje.</p>
+      </div>
+      <div class="phases">
+        <div class="phase">
+          <span class="num">1</span>
+          <h3>Audit</h3>
+          <span class="dur">1–2 týdny</span>
+          <p>Projdeme s vámi procesy, změříme, kolik času a peněz stojí dnes, a najdeme, kde se automatizace vrátí nejrychleji.</p>
+          <p class="out"><em>Výstup</em>Mapa procesů a seznam priorit s odhadem návratnosti.</p>
+        </div>
+        <div class="phase">
+          <span class="num">2</span>
+          <h3>Návrh</h3>
+          <span class="dur">1 týden</span>
+          <p>Vybereme procesy s nejrychlejší návratností a navrhneme systém. Rozhodneme, jestli poběží u vás, nebo v cloudu.</p>
+          <p class="out"><em>Výstup</em>Technický návrh, rozpočet a termín ostrého spuštění.</p>
+        </div>
+        <div class="phase">
+          <span class="num">3</span>
+          <h3>Nasazení</h3>
+          <span class="dur">2–6 týdnů</span>
+          <p>Napojíme systém na vaše nástroje a data a spustíme ho naostro. Na začátku každý výstup kontroluje člověk.</p>
+          <p class="out"><em>Výstup</em>Běžící systém, žádné demo.</p>
+        </div>
+        <div class="phase">
+          <span class="num">4</span>
+          <h3>Zaučení</h3>
+          <span class="dur">průběžně</span>
+          <p>Naučíme tým se systémem pracovat a sledujeme, jak si vede. Co nefunguje, doladíme.</p>
+          <p class="out"><em>Výstup</em>Proškolený tým a návod pro každou roli.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="vypocet">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Výpočet úspory</span>
+        <h2>Kolik vás stojí rutina?</h2>
+        <p class="lead">Posuňte jezdce podle vaší firmy. Přesné číslo spočítáme při auditu, tohle je první odhad.</p>
+      </div>
+
+      <div class="calc">
+        <div class="calc-in">
+          <div class="field">
+            <div class="field-top"><label for="c-people">Lidé, kteří dělají rutinu</label><output id="o-people" for="c-people">6 lidí</output></div>
+            <input type="range" id="c-people" min="1" max="60" value="6">
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="c-hours">Hodin rutiny týdně na člověka</label><output id="o-hours" for="c-hours">12 h</output></div>
+            <input type="range" id="c-hours" min="1" max="40" value="12">
+            <small>Přepisování faktur, odpovědi na stejné dotazy, kopírování mezi systémy.</small>
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="c-rate">Cena hodiny práce</label><output id="o-rate" for="c-rate">450 Kč</output></div>
+            <input type="range" id="c-rate" min="200" max="1500" step="25" value="450">
+            <small>Hrubá mzda včetně odvodů, přepočtená na hodinu.</small>
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="c-share">Kolik z toho jde automatizovat</label><output id="o-share" for="c-share">60 %</output></div>
+            <input type="range" id="c-share" min="20" max="80" step="5" value="60">
+          </div>
+        </div>
+        <div class="calc-out" aria-live="polite">
+          <div>
+            <div class="cap">Uvolněno měsíčně</div>
+            <div class="big" id="r-month">84 400 Kč</div>
+          </div>
+          <div class="calc-rows">
+            <div><span>Hodin měsíčně</span><b id="r-hours">187 h</b></div>
+            <div><span>To je jako úvazků</span><b id="r-fte">1,2</b></div>
+            <div><span>Za rok</span><b id="r-year">1 012 800 Kč</b></div>
+          </div>
+          <p class="fine">Počítáme s 4,33 týdne v měsíci a 160 hodinami na plný úvazek. Uvolněný čas lidé věnují práci, kterou stroj neudělá.</p>
+          <a class="btn" href="#kontakt">Spočítat to přesně</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Jeden den na obchodním oddělení</span>
+        <h2>Ručně, nebo se systémem</h2>
+      </div>
+      <div class="ba">
+        <div class="ba-col before">
+          <h3>Dnes ručně</h3>
+          <ul>
+            <li><span class="tm">45 min</span><span>Přepsat 30 přijatých faktur do účetnictví a dohledat objednávky.</span></li>
+            <li><span class="tm">1 h 20</span><span>Odpovědět na dotazy „kde je moje objednávka" a „máte skladem".</span></li>
+            <li><span class="tm">50 min</span><span>Zapsat poptávky z e-mailu do CRM a dohledat firmu v ARES.</span></li>
+            <li><span class="tm">40 min</span><span>Poskládat nabídku z ceníku a starých nabídek.</span></li>
+          </ul>
+        </div>
+        <div class="ba-col after">
+          <h3>Se systémem</h3>
+          <ul>
+            <li><span class="tm">5 min</span><span>Faktury se vytěží a spárují samy. Člověk schválí jen ty, kde něco nesedí.</span></li>
+            <li><span class="tm">10 min</span><span>Běžné dotazy odpoví systém podle stavu objednávky. Složité předá s celou historií.</span></li>
+            <li><span class="tm">0 min</span><span>Poptávka je v CRM i s údaji z ARES dřív, než ji obchodník otevře.</span></li>
+            <li><span class="tm">10 min</span><span>Návrh nabídky čeká připravený. Obchodník upraví a odešle.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Proč my</span>
+        <h2>Nejsme konzultanti s prezentací. Ani krabicový nástroj.</h2>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col"></th><th scope="col" class="us">Odsýpá</th><th scope="col">AI konzultant</th><th scope="col">Hotový nástroj</th><th scope="col">Vlastní tým</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Na míru vašim procesům</th><td class="us y">Ano</td><td class="y">Ano</td><td class="n">Ne</td><td class="y">Ano</td></tr>
+            <tr><th scope="row">Výstupem je běžící systém</th><td class="us y">Ano</td><td class="n">Ne, doporučení</td><td class="y">Ano</td><td class="n">Za dlouho</td></tr>
+            <tr><th scope="row">Zaučení celého týmu</th><td class="us y">Ano</td><td class="n">Částečně</td><td class="n">Ne</td><td class="n">Částečně</td></tr>
+            <tr><th scope="row">Provoz na vašem serveru</th><td class="us y">Ano</td><td class="n">Neřeší</td><td class="n">Ne</td><td class="y">Ano</td></tr>
+            <tr><th scope="row">Návratnost spočítaná předem</th><td class="us y">Ano</td><td class="n">Částečně</td><td class="n">Ne</td><td class="n">Ne</td></tr>
+            <tr><th scope="row">Do ostrého provozu</th><td class="us">Týdny</td><td>Měsíce</td><td>Dny</td><td>Měsíce</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Bezpečnost</span>
+        <h2>Vaše data zůstávají vaše</h2>
+      </div>
+      <div class="data">
+        <div class="data-card"><h3>Lokálně u vás</h3><p>Systém i jazykový model poběží na vašem serveru. Data nikdy neopustí firmu. Hodí se pro smlouvy, mzdy a zdravotní údaje.</p></div>
+        <div class="data-card"><h3>V cloudu v EU</h3><p>Rychlejší start a nižší vstupní náklady. Používáme služby, které na vašich datech netrénují, a s daty v EU.</p></div>
+        <div class="data-card"><h3>Podle GDPR</h3><p>Ke každému systému dodáme popis, jaká data zpracovává a kdo k nim má přístup. Volbu provozu doporučíme po auditu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="programy" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Spolupráce</span>
+        <h2>Začněte auditem. Pokračujte, až uvidíte čísla.</h2>
+      </div>
+      <div class="programs">
+        <div class="prog">
+          <span class="tag">Pro začátek</span>
+          <h3>Audit</h3>
+          <p>Pro firmy, které chtějí vědět, kde AI dává smysl, než do něčeho investují.</p>
+          <ul><li>Mapa procesů a jejich nákladů</li><li>Pořadí priorit podle návratnosti</li><li>Doporučení, co nechat, jak je</li></ul>
+          <p class="price">Pevná cena, známá předem</p>
+        </div>
+        <div class="prog featured">
+          <span class="tag">Nejčastější</span>
+          <h3>Implementace</h3>
+          <p>Postavíme a nasadíme jeden až tři systémy s nejrychlejší návratností.</p>
+          <ul><li>Návrh, vývoj a napojení na vaše nástroje</li><li>Lokální nebo cloudový provoz</li><li>Zaučení týmu a návody</li></ul>
+          <p class="price">Cena podle rozsahu, po auditu</p>
+        </div>
+        <div class="prog">
+          <span class="tag">Dlouhodobě</span>
+          <h3>Partnerství</h3>
+          <p>Pro firmy, které chtějí automatizovat postupně celý provoz a mít na to stálý tým.</p>
+          <ul><li>Nové systémy každý kvartál</li><li>Údržba a ladění běžících systémů</li><li>Měsíční přehled úspor</li></ul>
+          <p class="price">Měsíční paušál</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="eyebrow">Časté dotazy</span>
+        <h2>Než se ozvete</h2>
+        <p class="lead">Na co jsme nepomysleli, probereme na úvodním hovoru.</p>
+      </div>
+      <div class="faq">
+        <details><summary>Pro koho to je?</summary><p>Pro majitele a vedení firem od zhruba 10 lidí, které chtějí růst bez toho, aby se stejně rychle zvedaly náklady na kancelář. Nejvíc pomůžeme tam, kde se každý den opakují stejné úkony.</p></details>
+        <details><summary>Nahradí AI naše lidi?</summary><p>Ne. Systém převezme opakující se práci a lidé se věnují tomu, co stroj neudělá: zákazníkům, rozhodování a řešení problémů. Firmy díky tomu obvykle zvládnou víc práce bez nového náboru.</p></details>
+        <details><summary>Kolik to stojí?</summary><p>Audit má pevnou cenu, kterou znáte předem. Cenu implementace řekneme po auditu, kdy víme, co přesně stavět a jakou úsporu to přinese. Provoz systému obvykle stojí stovky až nízké tisíce korun měsíčně.</p></details>
+        <details><summary>Jak dlouho to trvá?</summary><p>Audit 1–2 týdny, první systém v ostrém provozu typicky do 4–8 týdnů od začátku spolupráce.</p></details>
+        <details><summary>Poběží to u nás, nebo v cloudu?</summary><p>Obojí jde. Pro citlivá data (smlouvy, mzdy, zdravotní údaje) doporučujeme provoz na vašem serveru. Jinde bývá výhodnější cloud v EU. Rozhodneme spolu po auditu.</p></details>
+        <details><summary>Musíme měnit systémy, které používáme?</summary><p>Ne. Napojujeme se na účetnictví, CRM, e-shop, e-mail a sdílené disky, které už máte. Lidé pracují dál ve svých nástrojích.</p></details>
+        <details><summary>Co když AI udělá chybu?</summary><p>Na začátku každý výstup kontroluje člověk. Systém postupně dostává víc samostatnosti tam, kde se osvědčil. Nejistý výsledek vždy předá člověku.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block final" id="kontakt">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow" style="color:var(--night-muted)">Úvodní hovor zdarma</span>
+        <h2 style="margin-block:18px">Ukažte nám, co vás zdržuje</h2>
+        <p class="lead">Ozveme se do dvou pracovních dnů. Na 30minutovém hovoru zjistíme, jestli a kde vám automatizace ušetří peníze.</p>
+        <ul class="promise">
+          <li>Bez závazku a bez prodejní prezentace</li>
+          <li>Pojmenujeme první proces k automatizaci</li>
+          <li>Když to u vás smysl nedává, řekneme to</li>
+        </ul>
+      </div>
+      <form class="lead-form" id="lead-form" novalidate>
+        <div class="row2">
+          <div class="f"><label for="f-name">Jméno a příjmení</label><input id="f-name" name="name" autocomplete="name" required></div>
+          <div class="f"><label for="f-company">Firma</label><input id="f-company" name="company" autocomplete="organization" required></div>
+        </div>
+        <div class="row2">
+          <div class="f"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="f"><label for="f-phone">Telefon</label><div class="phone"><span>+420</span><input id="f-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel"></div></div>
+        </div>
+        <div class="f">
+          <label for="f-size">Počet zaměstnanců</label>
+          <select id="f-size" name="size"><option>do 10</option><option selected>10–50</option><option>50–250</option><option>nad 250</option></select>
+        </div>
+        <div class="f"><label for="f-pain">Co vás nejvíc zdržuje? <span style="font-weight:400;color:var(--muted)">(nepovinné)</span></label><textarea id="f-pain" name="pain" placeholder="Např. ruční přepisování faktur, stejné dotazy zákazníků…"></textarea></div>
+        <p class="form-err" id="form-err" hidden></p>
+        <button class="btn btn-primary" type="submit">Domluvit úvodní hovor</button>
+        <p class="form-note">Údaje použijeme jen k tomu, abychom se vám ozvali.</p>
+        <p class="form-msg" id="form-msg" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top" style="font-size:1.1rem">odsýpá</a>
+    <nav aria-label="Patička">
+      <a href="#systemy">Systémy</a><a href="#postup">Jak to stavíme</a><a href="#vypocet">Výpočet</a><a href="#faq">FAQ</a><a href="#kontakt">Kontakt</a>
+    </nav>
+    <span>ahoj@odsypa.cz · © 2026 Odsýpá</span>
+  </div>
+</footer>
+
+<script>
+/* ---- Systémy: záložky ---- */
+const SYSTEMS = [
+  { key: "obchod", tab: "Obchod", title: "Obchodní systém",
+    desc: "Poptávky z webu, e-mailu i telefonu skončí ve správném CRM s údaji o firmě. Systém připraví návrh nabídky z ceníku a hlídá, komu se má kdo ozvat.",
+    flow: [["Přijde poptávka", "Web, e-mail, formulář nebo přepis hovoru."], ["Kvalifikace a ARES", "Doplní IČO, obor, velikost firmy a historii."], ["Nabídka ke schválení", "Návrh z ceníku čeká na obchodníka."]],
+    gone: ["Ruční zápis poptávek do CRM", "Skládání nabídek ze starých souborů", "Zapomenuté follow-upy"] },
+  { key: "podpora", tab: "Zákaznická podpora", title: "AI zákaznická podpora",
+    desc: "Odpovídá v e-mailu, chatu i na WhatsAppu podle vaší znalostní báze a stavu objednávky. Co nezvládne, předá člověku i s celou historií.",
+    flow: [["Dotaz zákazníka", "Kanál nehraje roli, odpověď má jeden tón."], ["Dohledání odpovědi", "Znalostní báze, e-shop, sklad, dopravce."], ["Odpověď nebo předání", "Nejisté případy jdou na člověka."]],
+    gone: ["„Kde je moje objednávka?“ stokrát denně", "Hledání v e-mailech, co už se zákazníkovi slíbilo", "Noční a víkendové fronty"] },
+  { key: "doklady", tab: "Doklady", title: "Zpracování dokladů",
+    desc: "Faktury, dodací listy a smlouvy se samy vytěží, spárují s objednávkou a zapíšou do účetnictví. U smluv systém vyznačí rizikové body a změny proti minulé verzi.",
+    flow: [["Doklad dorazí", "E-mail, sken, ISDOC nebo datová schránka."], ["Vytěžení a kontrola", "Částky, DPH, splatnost, párování s objednávkou."], ["Zápis do účetnictví", "Pohoda, Money, ABRA. Nesoulad hlásí člověku."]],
+    gone: ["Přepisování faktur", "Dohledávání objednávek k dokladům", "Ruční hlídání splatností"] },
+  { key: "asistent", tab: "Interní asistent", title: "Interní AI asistent",
+    desc: "Asistent nad vašimi směrnicemi, ceníky, smlouvami a návody. Kolegové se ho ptají v Teams nebo Slacku a dostanou odpověď s odkazem na zdroj.",
+    flow: [["Otázka kolegy", "„Jaká je sleva pro velkoodběratele?“"], ["Hledání ve firemních datech", "Jen v dokumentech, ke kterým má tazatel přístup."], ["Odpověď se zdrojem", "Vždy s odkazem, odkud informace pochází."]],
+    gone: ["Opakované dotazy na seniory", "Hledání ve sdílených discích", "Dlouhé zaškolování nováčků"] },
+  { key: "nabor", tab: "Nábor", title: "AI nábor",
+    desc: "Systém roztřídí životopisy, předvybere uchazeče podle vašich kritérií, domluví termíny pohovorů a každému odpoví. Rozhoduje vždy člověk.",
+    flow: [["Přijde reakce", "Jobs.cz, Prace.cz, LinkedIn, e-mail."], ["Předvýběr", "Shoda s kritérii a krátké zdůvodnění."], ["Pozvánka na pohovor", "Termín z kalendáře, odpověď všem ostatním."]],
+    gone: ["Čtení stovek nevhodných CV", "Ping-pong kvůli termínům", "Uchazeči, kterým nikdo neodpověděl"] },
+  { key: "obsah", tab: "Obsah a marketing", title: "Obsah a marketing",
+    desc: "Příspěvky, newslettery a popisky produktů ve vašem tónu, z vašich podkladů. Nic se nepublikuje, dokud to neschválí člověk.",
+    flow: [["Podklady", "Novinky, produkty, fotky, poznámky z porad."], ["Návrhy textů", "Ve vašem tónu, pro každý kanál zvlášť."], ["Schválení a plán", "Člověk upraví, systém naplánuje."]],
+    gone: ["Prázdná stránka každé pondělí", "Ruční popisky stovek produktů", "Přepisování jednoho textu pro pět sítí"] },
+];
+
+const tabsEl = document.getElementById("tabs");
+const panelEl = document.getElementById("panel");
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function renderPanel(i) {
+  const s = SYSTEMS[i];
+  panelEl.setAttribute("aria-labelledby", "tab-" + s.key);
+  panelEl.innerHTML = `
+    <div>
+      <h3>${esc(s.title)}</h3>
+      <p class="desc">${esc(s.desc)}</p>
+      <div class="gone-title">Co odpadne</div>
+      <ul class="gone">${s.gone.map(g => `<li>${esc(g)}</li>`).join("")}</ul>
+    </div>
+    <div class="flow">${s.flow.map((f, j) => `
+      <div class="flow-step"><span class="flow-dot">${j + 1}</span><div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div></div>`).join("")}
+    </div>`;
+  [...tabsEl.children].forEach((t, j) => { t.setAttribute("aria-selected", j === i ? "true" : "false"); t.tabIndex = j === i ? 0 : -1; });
+}
+SYSTEMS.forEach((s, i) => {
+  const b = document.createElement("button");
+  b.className = "tab"; b.type = "button"; b.id = "tab-" + s.key;
+  b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "panel"); b.textContent = s.tab;
+  b.addEventListener("click", () => renderPanel(i));
+  b.addEventListener("keydown", e => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    const n = (i + (e.key === "ArrowRight" ? 1 : -1) + SYSTEMS.length) % SYSTEMS.length;
+    renderPanel(n); tabsEl.children[n].focus();
+  });
+  tabsEl.appendChild(b);
+});
+renderPanel(0);
+
+/* ---- Kalkulačka ---- */
+const nf = new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 });
+const nf1 = new Intl.NumberFormat("cs-CZ", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const $ = id => document.getElementById(id);
+function lidi(n) { return n === 1 ? "člověk" : n < 5 ? "lidé" : "lidí"; }
+function calc() {
+  const p = +$("c-people").value, h = +$("c-hours").value, r = +$("c-rate").value, s = +$("c-share").value / 100;
+  $("o-people").textContent = `${p} ${lidi(p)}`;
+  $("o-hours").textContent = `${h} h`;
+  $("o-rate").textContent = `${nf.format(r)} Kč`;
+  $("o-share").textContent = `${Math.round(s * 100)} %`;
+  const hours = p * h * 4.33 * s;
+  const money = Math.round(hours * r / 100) * 100;
+  $("r-month").textContent = `${nf.format(money)} Kč`;
+  $("r-hours").textContent = `${nf.format(hours)} h`;
+  $("r-fte").textContent = nf1.format(hours / 160);
+  $("r-year").textContent = `${nf.format(money * 12)} Kč`;
+}
+["c-people", "c-hours", "c-rate", "c-share"].forEach(id => $(id).addEventListener("input", calc));
+calc();
+
+/* ---- Živá fronta v hero ---- */
+const INCOMING = [
+  ["Dotaz zákazníka · „Kdy dorazí objednávka <b>#1187</b>?“", "odpovězeno, předáno PPL", 2],
+  ["Faktura přijatá · <b>12 760 Kč</b>, dodací list přiložen", "vytěženo, spárováno s OBJ-2214", 4],
+  ["Poptávka e-mailem · <b>Kovo Hulín a.s.</b>", "v CRM, údaje z ARES doplněny", 6],
+  ["Dotaz kolegy · „Jaká je sleva nad <b>500 ks</b>?“", "odpovězeno se zdrojem: Ceník 2026", 3],
+  ["Faktura přijatá · <b>3 145 Kč</b>, nesedí DPH", "předáno účetní ke kontrole", 5],
+  ["Životopis · pozice <b>obchodník/ce B2B</b>", "předvybráno, shoda 74 %", 6],
+  ["Recenze na Google · <b>4 hvězdy</b>", "návrh odpovědi ke schválení", 4],
+];
+const list = $("q-list"), savedEl = $("q-saved");
+let savedMin = 167, clock = 8 * 60 + 31, k = 0;
+const fmtSaved = m => `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")} min`;
+const fmtClock = m => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+function tick() {
+  const [what, res, mins] = INCOMING[k++ % INCOMING.length];
+  clock += 3 + Math.floor(Math.random() * 6);
+  const li = document.createElement("li");
+  li.className = "q-item enter";
+  li.innerHTML = `<span class="q-time">${fmtClock(clock)}</span><span class="q-what">${what}</span><span class="q-res"><span class="st">● zpracovávám…</span></span>`;
+  list.prepend(li);
+  while (list.children.length > 5) list.lastElementChild.remove();
+  setTimeout(() => {
+    li.querySelector(".q-res").innerHTML = `<span class="st done">✓ ${res}</span>· 0:0${2 + Math.floor(Math.random() * 8)}`;
+    savedMin += mins * 3;
+    savedEl.textContent = fmtSaved(savedMin);
+  }, 1400);
+}
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tick, 3400);
+
+/* ---- Formulář ----
+   Pro ostrý web doplňte adresu, kam se poptávky posílají (např. Formspree, Make, vlastní API). */
+const FORM_ENDPOINT = "";
+$("lead-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, err = $("form-err"), msg = $("form-msg");
+  err.hidden = true; msg.hidden = true;
+  const missing = [["f-name", "jméno"], ["f-company", "firmu"], ["f-email", "e-mail"]].filter(([id]) => !$(id).value.trim()).map(x => x[1]);
+  if (missing.length) { err.textContent = `Vyplňte prosím ${missing.join(", ")}.`; err.hidden = false; return; }
+  if (!$("f-email").validity.valid) { err.textContent = "E-mail nemá správný tvar, zkontrolujte ho prosím."; err.hidden = false; return; }
+  if (!FORM_ENDPOINT) {
+    msg.textContent = "Ukázka: formulář je zatím jen náhled a nikam neodesílá. Na ostrém webu se tu zobrazí potvrzení.";
+    msg.hidden = false; return;
+  }
+  try {
+    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(f) });
+    if (!r.ok) throw new Error();
+    f.reset(); msg.textContent = "Děkujeme. Ozveme se do dvou pracovních dnů."; msg.hidden = false;
+  } catch {
+    err.textContent = "Odeslání se nepovedlo. Zkuste to prosím znovu, nebo napište na ahoj@odsypa.cz."; err.hidden = false;
+  }
+});
+</script>
+</body>
+</html>
