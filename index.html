@@ -19,10 +19,10 @@
   --ink: #f7f1f9;
   --muted: #b6a3bf;
   --line: rgba(241, 221, 246, .14);
-  --sand: #f136cb;
-  --violet: #8b3ae5;
-  --grad: linear-gradient(135deg, #f136cb, #8b3ae5);
-  --sand-ink: #fdf8fe;
+  --sand: #ecb427;
+  --violet: #d27f00;
+  --grad: linear-gradient(135deg, #ffd568 0%, #ecb427 50%, #d27f00 100%);
+  --sand-ink: #1a1203;
   --ok: #6FE0A8; --ok-bg: rgba(111, 224, 168, .12);
   --night: #07030c; --night-fg: #f7f1f9; --night-muted: #b6a3bf; --night-line: rgba(241, 221, 246, .14);
   --display: "Sora", "Hanken Grotesk", system-ui, sans-serif;
@@ -50,7 +50,7 @@ h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.2; }
 p { margin: 0; }
 .eyebrow { font-family: var(--mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
-mark { background: linear-gradient(100deg, #f136cb, #ff97ce, #8b3ae5, #f136cb); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: text-shimmer 6s ease-in-out infinite; }
+mark { background: linear-gradient(100deg, #ecb427, #ffd568, #d27f00, #ecb427); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: text-shimmer 6s ease-in-out infinite; }
 
 .btn {
   display: inline-flex; align-items: center; gap: .5em; justify-content: center;
@@ -58,8 +58,8 @@ mark { background: linear-gradient(100deg, #f136cb, #ff97ce, #8b3ae5, #f136cb); 
   padding: .85em 1.35em; border-radius: 999px; border: 2px solid var(--ink); cursor: pointer;
   transition: transform .15s ease, background .15s ease;
 }
-.btn-primary { background: var(--grad); color: var(--sand-ink); border-color: transparent; box-shadow: 0 8px 30px -8px rgba(241, 54, 203, .65); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -6px rgba(241, 54, 203, .85); }
+.btn-primary { background: var(--grad); color: var(--sand-ink); border-color: transparent; box-shadow: 0 8px 30px -8px rgba(236, 180, 39, .65); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -6px rgba(236, 180, 39, .85); }
 .btn-ghost { background: transparent; color: var(--ink); }
 .btn-ghost:hover { background: var(--surface); }
 
@@ -86,7 +86,7 @@ mark { background: linear-gradient(100deg, #f136cb, #ff97ce, #8b3ae5, #f136cb); 
 @media (max-width: 900px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
 
 /* queue widget */
-.queue { background: var(--night); border: 1px solid var(--line); color: var(--night-fg); border-radius: 18px; padding: 20px; min-width: 0; box-shadow: 0 30px 80px -30px rgba(241, 54, 203, .45); }
+.queue { background: var(--night); border: 1px solid var(--line); color: var(--night-fg); border-radius: 18px; padding: 20px; min-width: 0; box-shadow: 0 30px 80px -30px rgba(236, 180, 39, .45); }
 .queue-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--night-line); font-family: var(--mono); font-size: .78rem; color: var(--night-muted); text-transform: uppercase; letter-spacing: .08em; }
 .queue-head .live { display: inline-flex; align-items: center; gap: .45em; }
 .queue-head .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--sand); animation: pulse 1.6s ease-in-out infinite; }
@@ -122,7 +122,7 @@ section.block { padding-block: clamp(64px, 9vw, 120px); }
 .tab { font: 600 .95rem var(--body); padding: .6em 1.1em; border-radius: 999px; border: 1.5px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
 .tab:hover { color: var(--ink); border-color: var(--ink); }
 .tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.panel { display: grid; background-image: radial-gradient(60% 80% at 100% 0%, rgba(139, 58, 229, .18), transparent 70%); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); background-color: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 4vw, 48px); }
+.panel { display: grid; background-image: radial-gradient(60% 80% at 100% 0%, rgba(210, 127, 0, .18), transparent 70%); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); background-color: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 4vw, 48px); }
 .panel h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 800; margin-bottom: 14px; }
 .panel .desc { color: var(--muted); margin-bottom: 22px; max-width: 52ch; }
 .panel ul.gone { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
@@ -275,8 +275,8 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 100; pointer-e
 .hero { position: relative; overflow: hidden; }
 .hero .wrap { position: relative; z-index: 1; }
 .aurora { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
-.aurora.a { width: 620px; height: 620px; left: -160px; top: -200px; background: #7024ab; opacity: .45; animation: drift-a 18s ease-in-out infinite; }
-.aurora.b { width: 520px; height: 520px; right: -140px; top: 40px; background: #ad008a; opacity: .38; animation: drift-b 22s ease-in-out infinite; }
+.aurora.a { width: 620px; height: 620px; left: -160px; top: -200px; background: #b07a10; opacity: .32; animation: drift-a 18s ease-in-out infinite; }
+.aurora.b { width: 520px; height: 520px; right: -140px; top: 40px; background: #d27f00; opacity: .28; animation: drift-b 22s ease-in-out infinite; }
 .queue { animation: float 9s ease-in-out infinite; }
 .hero-copy > * { animation: reveal 1.05s var(--ease) both; }
 .hero-copy > :nth-child(2) { animation-delay: .1s; } .hero-copy > :nth-child(3) { animation-delay: .22s; }
@@ -293,17 +293,17 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 100; pointer-e
 .js .rv.in { animation: reveal 1.05s var(--ease) both; }
 
 .prog, .data-card, .panel, .phase, .calc, .ba-col { transition: border-color .3s ease, transform .3s var(--ease), box-shadow .3s ease; }
-.prog:hover { transform: translateY(-4px); border-color: var(--sand); box-shadow: 0 20px 50px -24px rgba(241, 54, 203, .6); }
-.prog.featured { border-color: var(--sand); background-image: radial-gradient(70% 60% at 50% 0%, rgba(241, 54, 203, .16), transparent 70%); }
-.ba-col.after { border-color: var(--violet); box-shadow: 0 0 60px -20px rgba(139, 58, 229, .6); }
+.prog:hover { transform: translateY(-4px); border-color: var(--sand); box-shadow: 0 20px 50px -24px rgba(236, 180, 39, .6); }
+.prog.featured { border-color: var(--sand); background-image: radial-gradient(70% 60% at 50% 0%, rgba(236, 180, 39, .16), transparent 70%); }
+.ba-col.after { border-color: var(--violet); box-shadow: 0 0 60px -20px rgba(210, 127, 0, .6); }
 .data-card { border-top: 0; border-image: none; padding-top: 0; }
 .data-card h3::before { content: ""; display: block; width: 36px; height: 3px; border-radius: 2px; background: var(--grad); margin-bottom: 14px; }
 .tab[aria-selected="true"] { background: var(--grad); color: var(--sand-ink); border-color: transparent; }
 .tab:hover { border-color: var(--sand); }
 .final { position: relative; overflow: hidden; }
 .final .wrap { position: relative; z-index: 1; }
-.final .aurora.a { left: auto; right: -200px; top: -120px; opacity: .3; }
-.f input:focus, .f select:focus, .f textarea:focus { border-color: var(--sand); box-shadow: 0 0 0 3px rgba(241, 54, 203, .25); }
+.final .aurora.a { left: auto; right: -200px; top: -120px; opacity: .22; }
+.f input:focus, .f select:focus, .f textarea:focus { border-color: var(--sand); box-shadow: 0 0 0 3px rgba(236, 180, 39, .25); }
 input[type="range"] { accent-color: #fff; }
 .faq { border-top-color: var(--line); }
 .faq details[open] summary { color: var(--sand); }
@@ -323,7 +323,7 @@ input[type="range"] { accent-color: #fff; }
 .case .cap { color: var(--muted); font-size: .92rem; }
 .case .run { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); font-size: .92rem; color: var(--muted); }
 .case .run b { font-family: var(--mono); font-weight: 500; color: var(--ink); font-size: .85rem; }
-.banner { margin-top: 20px; border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 4vw, 36px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; background-image: linear-gradient(120deg, rgba(139, 58, 229, .2), rgba(241, 54, 203, .1)); }
+.banner { margin-top: 20px; border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 4vw, 36px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; background-image: linear-gradient(120deg, rgba(210, 127, 0, .2), rgba(236, 180, 39, .1)); }
 .banner h3 { margin-bottom: 8px; }
 .banner p { color: var(--muted); max-width: 64ch; }
 .banner-tags { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -339,6 +339,57 @@ input[type="range"] { accent-color: #fff; }
 @media (max-width: 1000px) { .programs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .founder, .banner { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 600px) { .programs, .cases { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- mockupy systémů ---- */
+.panel { align-items: center; }
+.steps { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.steps span { font-family: var(--mono); font-size: .78rem; border: 1px solid var(--line); border-radius: 999px; padding: .35em .85em; color: var(--muted); }
+.steps span b { color: var(--sand); font-weight: 500; margin-right: .4em; }
+.mock { background: var(--night); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 30px 70px -30px rgba(236, 180, 39, .35); min-width: 0; }
+.mock-bar { display: flex; align-items: center; gap: 6px; padding: 11px 14px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .72rem; color: var(--muted); }
+.mock-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--surface-2); }
+.mock-bar span { margin-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mock-body { padding: 16px; display: grid; gap: 12px; font-size: .86rem; line-height: 1.45; }
+.chip { display: inline-flex; align-items: center; gap: .35em; font-family: var(--mono); font-size: .7rem; padding: .25em .65em; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.chip.gold { background: rgba(236, 180, 39, .16); color: var(--sand); }
+.chip.ok { background: var(--ok-bg); color: var(--ok); }
+.chip.warn { background: rgba(255, 101, 104, .15); color: #ff8a8c; }
+/* pipeline */
+.kan { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.kan-col { display: grid; gap: 8px; align-content: start; }
+.kan-col h5 { margin: 0; font-family: var(--mono); font-weight: 500; font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.deal { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 4px; min-width: 0; }
+.deal b { font-weight: 600; overflow-wrap: anywhere; }
+.deal small { color: var(--muted); font-size: .76rem; }
+.deal.hot { border-color: var(--sand); box-shadow: 0 0 24px -8px rgba(236, 180, 39, .6); }
+/* chat */
+.msg { max-width: 88%; padding: 10px 13px; border-radius: 14px; background: var(--surface-2); justify-self: start; }
+.msg.ai { justify-self: end; background: rgba(236, 180, 39, .12); border: 1px solid rgba(236, 180, 39, .3); }
+.msg .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.typing { display: inline-flex; gap: 4px; }
+.typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--sand); animation: pulse-dot 1.2s ease-in-out infinite; }
+.typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
+@keyframes pulse-dot { 50% { opacity: .25; } }
+/* dokument */
+.doc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.paper { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 7px; align-content: start; position: relative; overflow: hidden; }
+.paper i { display: block; height: 6px; border-radius: 3px; background: var(--surface-2); }
+.paper i.w1 { width: 60%; } .paper i.w2 { width: 85%; } .paper i.w3 { width: 40%; } .paper i.hl { background: rgba(236, 180, 39, .55); width: 55%; }
+.paper::after { content: ""; position: absolute; left: 0; right: 0; height: 36%; top: -40%; background: linear-gradient(transparent, rgba(236, 180, 39, .22), transparent); animation: scan 3.6s ease-in-out infinite; }
+@keyframes scan { to { top: 110%; } }
+.fields { display: grid; gap: 6px; align-content: start; }
+.field-row { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed var(--line); padding-block: 5px; font-size: .8rem; }
+.field-row span { color: var(--muted); }
+.field-row b { font-family: var(--mono); font-weight: 500; text-align: right; }
+/* kandidáti, obsah */
+.row-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.row-item small { color: var(--muted); font-size: .76rem; grid-column: 1; }
+.bar { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 3px; background: var(--grad); }
+.post { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; display: grid; gap: 6px; }
+.post header { display: flex; justify-content: space-between; gap: 8px; align-items: center; font-family: var(--mono); font-size: .7rem; color: var(--muted); }
+@media (max-width: 480px) { .kan { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .kan-col:nth-child(3) { display: none; } .doc { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .paper::after, .typing i { animation: none !important; } }
 </style>
 </head>
 <body>
@@ -346,7 +397,7 @@ input[type="range"] { accent-color: #fff; }
 <header class="nav">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="Odsýpá – úvod">
-      <svg viewBox="0 0 22 26" aria-hidden="true"><path d="M2 1h18M2 25h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M4 2.5h14L11 13Z" fill="currentColor"/><path d="M11 13 4 23.5h14Z" fill="#f136cb"/></svg>
+      <svg viewBox="0 0 22 26" aria-hidden="true"><path d="M2 1h18M2 25h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M4 2.5h14L11 13Z" fill="currentColor"/><path d="M11 13 4 23.5h14Z" fill="#ecb427"/></svg>
       odsýpá
     </a>
     <nav class="nav-links" aria-label="Hlavní menu">
@@ -670,6 +721,56 @@ const SYSTEMS = [
     gone: ["Prázdná stránka každé pondělí", "Ruční popisky stovek produktů", "Přepisování jednoho textu pro pět sítí"] },
 ];
 
+
+const MOCKS = {
+  obchod: ["custom sales system · ukázka", `
+    <div class="kan">
+      <div class="kan-col"><h5>Nové · 3</h5>
+        <div class="deal hot"><b>Kovo Hulín a.s.</b><small>IČO doplněno z ARES</small><span class="chip gold">AI: kvalifikováno</span></div>
+        <div class="deal"><b>Stavebniny Morava</b><small>poptávka z webu</small></div></div>
+      <div class="kan-col"><h5>Kvalifikace · 2</h5>
+        <div class="deal"><b>Pekárna Dvořák</b><small>180 000 Kč / rok</small></div>
+        <div class="deal"><b>LogiTrans s.r.o.</b><small>čeká na podklady</small></div></div>
+      <div class="kan-col"><h5>Nabídka · 2</h5>
+        <div class="deal"><b>AgroServis</b><small>420 000 Kč</small><span class="chip gold">návrh připraven</span></div>
+        <div class="deal"><b>Hotel Zámek</b><small>follow-up za 2 dny</small></div></div>
+    </div>`],
+  podpora: ["ai zákaznická podpora · ukázka", `
+    <div class="msg">Dobrý den, kdy dorazí moje objednávka #1187?</div>
+    <div class="msg ai">Dobrý den, objednávka #1187 odešla dnes ráno s PPL. Doručení očekáváme zítra do 14:00.
+      <div class="meta"><span class="chip ok">✓ stav z e-shopu</span><span class="chip">PPL 4021 8873</span></div></div>
+    <div class="msg">A můžu změnit adresu doručení?</div>
+    <div class="msg ai"><span class="typing"><i></i><i></i><i></i></span>
+      <div class="meta"><span class="chip warn">předávám kolegyni s historií</span></div></div>`],
+  doklady: ["ai zpracování dokumentů · ukázka", `
+    <div class="doc">
+      <div class="paper"><i class="w1"></i><i class="w2"></i><i class="hl"></i><i class="w2"></i><i class="w3"></i><i class="w2"></i><i class="hl"></i><i class="w1"></i></div>
+      <div class="fields">
+        <div class="field-row"><span>Dodavatel</span><b>ELKO s.r.o.</b></div>
+        <div class="field-row"><span>IČO</span><b>27 33 11 02</b></div>
+        <div class="field-row"><span>Částka</span><b>48 290 Kč</b></div>
+        <div class="field-row"><span>DPH 21 %</span><b>8 380 Kč</b></div>
+        <div class="field-row"><span>Splatnost</span><b>24. 10.</b></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px"><span class="chip ok">✓ spárováno s OBJ-2214</span><span class="chip gold">zapsáno do Pohody</span></div>`],
+  asistent: ["interní ai asistent · ukázka", `
+    <div class="msg">Jaká je sleva pro velkoodběratele nad 500 ks?</div>
+    <div class="msg ai">Nad 500 ks platí sleva 12 %, nad 2 000 ks 18 %. Schvaluje ji vedoucí obchodu.
+      <div class="meta"><span class="chip gold">Ceník 2026.pdf · s. 4</span><span class="chip">Obchodní směrnice</span></div></div>
+    <div class="msg">A jak vypadá postup při reklamaci?</div>
+    <div class="msg ai"><span class="typing"><i></i><i></i><i></i></span></div>`],
+  nabor: ["ai nábor · ukázka", `
+    <div class="row-item"><b>Jana K. · skladnice</b><span class="chip ok">82 %</span><small>3 roky ve skladu, VZV, Brno</small><div class="bar"><i style="width:82%"></i></div></div>
+    <div class="row-item"><b>Petr M. · skladník</b><span class="chip gold">74 %</span><small>1 rok praxe, bez VZV</small><div class="bar"><i style="width:74%"></i></div></div>
+    <div class="row-item"><b>Lucie H. · skladnice</b><span class="chip">51 %</span><small>mimo region</small><div class="bar"><i style="width:51%"></i></div></div>
+    <span class="chip gold" style="justify-self:start">pozvánky na čtvrtek 10:00 a 11:30 odeslány</span>`],
+  obsah: ["ai obsah a marketing · ukázka", `
+    <div class="post"><header><span>LinkedIn</span><span class="chip ok">schváleno</span></header>Nová hala v Brně je v provozu. Tři věci, které jsme se při stavbě naučili…</div>
+    <div class="post"><header><span>Newsletter</span><span class="chip gold">návrh</span></header>Říjnové novinky: nový ceník, dvě reference a tip na úsporu…</div>
+    <div class="post"><header><span>Popis produktu · 248 ks</span><span class="chip">ve frontě</span></header>Odolná pracovní bunda s reflexními prvky, vhodná pro…</div>`],
+};
+
 const tabsEl = document.getElementById("tabs");
 const panelEl = document.getElementById("panel");
 const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -681,12 +782,11 @@ function renderPanel(i) {
     <div>
       <h3>${esc(s.title)}</h3>
       <p class="desc">${esc(s.desc)}</p>
+      <div class="steps">${s.flow.map((f, j) => `<span><b>${j + 1}</b>${esc(f[0])}</span>`).join("")}</div>
       <div class="gone-title">Co odpadne</div>
       <ul class="gone">${s.gone.map(g => `<li>${esc(g)}</li>`).join("")}</ul>
     </div>
-    <div class="flow">${s.flow.map((f, j) => `
-      <div class="flow-step"><span class="flow-dot">${j + 1}</span><div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div></div>`).join("")}
-    </div>`;
+    <div class="mock" aria-hidden="true"><div class="mock-bar"><i></i><i></i><i></i><span>${esc(MOCKS[s.key][0])}</span></div><div class="mock-body">${MOCKS[s.key][1]}</div></div>`;
   [...tabsEl.children].forEach((t, j) => { t.setAttribute("aria-selected", j === i ? "true" : "false"); t.tabIndex = j === i ? 0 : -1; });
 }
 SYSTEMS.forEach((s, i) => {
