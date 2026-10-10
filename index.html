@@ -438,79 +438,123 @@ input[type="range"] { accent-color: #fff; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -9 6.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 220px 220px; filter: brightness(0) invert(0); }
 .smoke::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 50% 40%, transparent, rgba(1, 1, 0, .55)); }
 
-/* ---- menší, kompaktnější a responzivní ---- */
-:root { --wrap: 1080px; }
-html { -webkit-text-size-adjust: 100%; }
-body { font-size: 15.5px; line-height: 1.55; overflow-x: hidden; }
-img, svg, video, canvas { max-width: 100%; }
-h2 { font-size: clamp(1.5rem, 2.8vw, 2.2rem); }
-h3 { font-size: 1.1rem; }
-.lead { font-size: 1rem; }
-.eyebrow { font-size: .72rem; }
-section.block { padding-block: clamp(40px, 6vw, 76px); }
-.sec-head { margin-bottom: clamp(22px, 3.5vw, 38px); gap: 12px; max-width: 700px; }
-.btn { font-size: .92rem; padding: .7em 1.2em; }
-.nav .wrap { min-height: 56px; }
-.nav .btn { padding: .5em 1em; font-size: .85rem; }
-.logo { font-size: 1.15rem; }
-.hero h1 { font-size: clamp(1.85rem, 4vw, 3.1rem); }
-.hero .lead { font-size: clamp(.95rem, 1.3vw, 1.05rem); }
-.hero-copy { gap: 22px; max-width: 760px; }
-.hero .tools .t { font-size: 1.05rem; }
-.hero .marquee { gap: 56px; }
-.panel { padding: clamp(18px, 3vw, 32px); border-radius: 16px; }
-.panel h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
-.mock-body { padding: 12px; font-size: .8rem; }
-.tab { font-size: .85rem; padding: .5em .95em; }
-.phase .num { font-size: 2.3rem; }
-.phase { padding-top: 22px; }
-.case { padding: 20px; }
-.case .save { font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
-.banner { padding: clamp(18px, 3vw, 28px); }
-.prog { padding: 22px; border-radius: 16px; }
-.prog h3 { font-size: 1.25rem; }
-.stat b { font-size: clamp(1.4rem, 2.6vw, 2.1rem); }
-.stats { padding-block: 26px; }
-.founder-text { font-size: 1rem; }
-th, td { padding: 12px 14px; }
-table { font-size: .9rem; }
-.faq summary { font-size: 1rem; padding-block: 16px; }
-.lead-form { padding: clamp(18px, 3vw, 28px); gap: 13px; }
-.f input, .f select, .f textarea { font-size: .95rem; padding: .6em .8em; }
-@media (max-width: 1000px) { .hero-main { padding-top: 90px; } }
-@media (max-width: 700px) {
-  body { font-size: 15px; }
-  .nav .wrap { gap: 12px; }
-  .hero { min-height: 100svh; }
-  .hero-main { padding-top: 84px; padding-bottom: 24px; }
-  .hero .cta-row { width: 100%; }
-  .hero .tools { padding-bottom: 22px; }
-  .tabs { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding-inline: 16px; scrollbar-width: none; }
-  .tab { flex: none; }
-  .ba-col li { grid-template-columns: 3.8em minmax(0, 1fr); }
-  .banner-tags span { font-size: .72rem; }
-}
-@media (max-width: 380px) { .logo { font-size: 1rem; } .nav .btn { padding: .45em .8em; font-size: .8rem; } .stats { grid-template-columns: minmax(0, 1fr); } }
-@media (min-width: 1600px) { :root { --wrap: 1180px; } body { font-size: 16.5px; } }
-@media (max-height: 560px) and (orientation: landscape) { .hero { min-height: 560px; } }
-
-/* ---- úvod přes celou obrazovku, menší texty ---- */
+/* ======== Velikosti textu jako lepshee.ai + důkladná responzivita ========
+   Škála: h1 clamp(2.1rem, 6vw, 4.6rem) · h2 1.875rem → 3rem · lead 1rem → 1.125rem · tlačítka 15px */
+:root { --wrap: 1180px; --gutter: clamp(16px, 4vw, 40px); }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 72px; }
 html, body { margin: 0; width: 100%; }
-.hero { width: 100%; height: 100vh; height: 100dvh; min-height: 520px; }
-.hero-main { padding-top: 72px; padding-bottom: 16px; }
-.hero-copy { gap: 16px; max-width: 640px; }
-.hero h1 { font-size: clamp(1.45rem, 2.9vw, 2.3rem); line-height: 1.12; letter-spacing: -.03em; }
-.hero .lead { font-size: clamp(.82rem, 1vw, .92rem); max-width: 50ch; line-height: 1.55; }
-.hero .btn { font-size: .8rem; padding: .6em 1.1em; }
-.hero .cta-row { gap: 8px; }
-.hero .tools { padding-bottom: 20px; }
-.hero .tools .t { font-size: .9rem; }
-.hero .marquee { gap: 44px; }
-.nav-links a { font-size: .8rem; }
-.nav .btn { font-size: .78rem; padding: .45em .95em; }
-.logo { font-size: 1.05rem; }
-@media (max-width: 700px) { .hero h1 { font-size: clamp(1.4rem, 6.4vw, 1.8rem); } .hero .btn { width: auto; } .hero-main { padding-top: 64px; } }
-@media (max-height: 520px) { .hero { height: auto; min-height: 520px; } }
+body { font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+img, svg, video, canvas, table { max-width: 100%; }
+p, li, h1, h2, h3, td, th, summary { overflow-wrap: break-word; }
+.wrap { padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)); }
+
+h2 { font-size: clamp(1.875rem, 1.2rem + 2.6vw, 3rem); font-weight: 600; line-height: 1.08; letter-spacing: -.02em; }
+h3 { font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem); }
+.lead { font-size: 1.0625rem; line-height: 1.6; }
+.eyebrow { font-size: .75rem; }
+section.block { padding-block: clamp(56px, 8vw, 104px); }
+.sec-head { margin-bottom: clamp(28px, 4.5vw, 52px); gap: 14px; max-width: 760px; }
+.btn { font-family: var(--body); font-size: 15px; font-weight: 600; padding: 1rem 2rem; min-height: 48px; }
+.panel { padding: clamp(18px, 3.2vw, 44px); border-radius: clamp(14px, 2vw, 20px); }
+.panel h3 { font-size: clamp(1.3rem, 1rem + 1.2vw, 1.8rem); }
+.mock-body { padding: clamp(10px, 1.6vw, 16px); font-size: clamp(.78rem, .72rem + .25vw, .88rem); }
+.tab { font-size: .9rem; padding: .6em 1.1em; min-height: 40px; }
+.phase .num { font-size: clamp(2.2rem, 3.4vw, 3rem); }
+.case { padding: clamp(18px, 2.4vw, 26px); }
+.case .save { font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.4rem); }
+.prog { padding: clamp(20px, 2.4vw, 28px); }
+.prog h3 { font-size: 1.4rem; }
+.stat b { font-size: clamp(1.6rem, 1rem + 2.2vw, 2.6rem); }
+.founder-text { font-size: 1.05rem; }
+th, td { padding: 14px 16px; }
+table { font-size: .95rem; }
+.faq summary { font-size: 1.05rem; padding-block: 18px; }
+.f input, .f select, .f textarea { font-size: 16px; } /* 16px, ať iOS nepřibližuje při psaní */
+
+/* menu */
+.nav .wrap { min-height: 64px; padding-top: env(safe-area-inset-top, 0px); }
+.nav .btn { font-size: .875rem; padding: 0 1.25rem; min-height: 40px; }
+.nav-links a { font-size: .875rem; }
+.logo { font-size: 1.2rem; }
+.burger { display: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 255, 255, .04); cursor: pointer; place-items: center; padding: 0; position: relative; }
+.burger span { position: absolute; left: 13px; right: 13px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .25s ease, top .25s ease, opacity .2s ease; }
+.burger span:nth-child(1) { top: 16px; } .burger span:nth-child(2) { top: 26px; }
+.nav.open .burger span:nth-child(1) { top: 21px; transform: rotate(45deg); }
+.nav.open .burger span:nth-child(2) { top: 21px; transform: rotate(-45deg); }
+
+/* úvod: přes celou obrazovku */
+.hero { width: 100%; height: 100vh; height: 100dvh; min-height: 560px; }
+.hero-main { padding-top: 88px; padding-bottom: 24px; }
+.hero-copy { gap: 24px; max-width: 56rem; }
+.hero h1 { font-size: clamp(2.1rem, 6vw, 4.6rem); line-height: 1.02; letter-spacing: -.03em; }
+.hero .lead { font-size: 1rem; max-width: 42rem; line-height: 1.65; text-wrap: pretty; }
+.hero .cta-row { gap: 12px; }
+.hero .tools { padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); }
+.hero .tools .t { font-size: 1.15rem; }
+.hero .marquee { gap: 64px; }
+@media (min-width: 1024px) { .hero .lead { font-size: 1.125rem; } }
+
+/* velké monitory */
+@media (min-width: 1600px) { :root { --wrap: 1280px; } html { font-size: 17px; } }
+@media (min-width: 2200px) { :root { --wrap: 1480px; } html { font-size: 19px; } }
+
+/* notebook / malý monitor */
+@media (max-width: 1100px) { .programs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* tablet a menší: mobilní menu */
+@media (max-width: 900px) {
+  .nav .wrap { display: flex; justify-content: space-between; gap: 10px; }
+  .nav .btn { margin-left: auto; }
+  .burger { display: grid; }
+  .nav-links { display: none; position: absolute; top: calc(100% + 1px); left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px var(--gutter) 16px; background: color-mix(in srgb, var(--bg) 96%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .nav.open .nav-links { display: flex; }
+  .nav-links a { padding: 14px 4px; font-size: 1rem; border-bottom: 1px solid var(--line); color: var(--ink); }
+  .nav-links a:last-child { border-bottom: 0; }
+  .nav.open { background: color-mix(in srgb, var(--bg) 96%, transparent); }
+  .panel, .ba, .banner, .founder, .final .wrap, .faq-grid { grid-template-columns: minmax(0, 1fr); }
+  .phases { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* telefon */
+@media (max-width: 640px) {
+  :root { --gutter: 18px; }
+  section.block { padding-block: 52px; }
+  .hero-main { padding-top: 80px; }
+  .hero-copy { gap: 20px; }
+  .hero .cta-row { flex-direction: column; align-items: stretch; width: 100%; max-width: 360px; }
+  .hero .btn { width: 100%; padding: .95rem 1.4rem; }
+  .hero .tools .t { font-size: 1rem; }
+  .hero .marquee { gap: 44px; }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: none; scroll-snap-align: start; }
+  .programs, .cases, .phases { grid-template-columns: minmax(0, 1fr); }
+  .phase, .phase:nth-child(even) { padding: 24px 0; border-left: 0; border-right: 0; }
+  .ba-col li { grid-template-columns: 3.8em minmax(0, 1fr); }
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+  .banner-tags span { font-size: .72rem; }
+  .kan { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .kan-col:nth-child(3) { display: none; }
+  .doc { grid-template-columns: minmax(0, 1fr); }
+  .tbl-wrap { margin-inline: calc(var(--gutter) * -1); border-radius: 0; border-inline: 0; }
+  footer .wrap { flex-direction: column; align-items: flex-start; }
+  .nav .btn { padding: 0 1rem; font-size: .8125rem; }
+}
+
+/* malé telefony */
+@media (max-width: 380px) { .logo { font-size: 1.05rem; } .stats { grid-template-columns: minmax(0, 1fr); } .nav .btn { padding: 0 .8rem; font-size: .78rem; } .tab { font-size: .85rem; } }
+@media (max-width: 340px) { .nav .btn { display: none; } }
+
+/* telefon na šířku a nízká okna */
+@media (max-height: 600px) { .hero { height: auto; min-height: 100vh; min-height: 100dvh; } .hero-main { padding-top: 76px; padding-bottom: 28px; } }
+@media (max-height: 460px) and (orientation: landscape) { .hero { min-height: 460px; } .hero h1 { font-size: clamp(1.7rem, 5vw, 2.4rem); } .hero-copy { gap: 14px; } }
+
+/* dotyková zařízení: bez hover posunů, větší cíle */
+@media (hover: none) { .prog:hover, .case:hover, .btn:hover, .btn-dark:hover, .btn-primary:hover { transform: none; } .faq summary { padding-block: 20px; } }
+@media (pointer: coarse) { .nav-links a, .tab, .btn { min-height: 44px; } }
+
+/* méně pohybu */
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .marquee { animation: none; } }
 </style>
 </head>
 <body>
@@ -521,7 +565,7 @@ html, body { margin: 0; width: 100%; }
       <svg viewBox="0 0 22 26" aria-hidden="true"><path d="M2 1h18M2 25h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M4 2.5h14L11 13Z" fill="currentColor"/><path d="M11 13 4 23.5h14Z" fill="#ecb427"/></svg>
       odsýpá
     </a>
-    <nav class="nav-links" aria-label="Hlavní menu">
+    <nav class="nav-links" id="nav-links" aria-label="Hlavní menu">
       <a href="#systemy">Systémy</a>
       <a href="#postup">Jak to stavíme</a>
       <a href="#vysledky">Výsledky</a>
@@ -529,6 +573,7 @@ html, body { margin: 0; width: 100%; }
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn-primary" href="#kontakt">Domluvit audit</a>
+    <button class="burger" id="burger" type="button" aria-label="Otevřít menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
   </div>
 </header>
 
@@ -786,6 +831,14 @@ html, body { margin: 0; width: 100%; }
 </footer>
 
 <script>
+(function () {
+  const n = document.querySelector(".nav"), bg = document.getElementById("burger");
+  const close = () => { n.classList.remove("open"); bg.setAttribute("aria-expanded", "false"); bg.setAttribute("aria-label", "Otevřít menu"); };
+  bg.addEventListener("click", () => { const o = n.classList.toggle("open"); bg.setAttribute("aria-expanded", String(o)); bg.setAttribute("aria-label", o ? "Zavřít menu" : "Otevřít menu"); });
+  n.querySelectorAll(".nav-links a, .nav > .wrap > .btn").forEach(a => a.addEventListener("click", close));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  addEventListener("resize", () => { if (innerWidth > 900) close(); });
+})();
 (function () { const n = document.querySelector(".nav"); const f = () => n.classList.toggle("solid", scrollY > 40); addEventListener("scroll", f, { passive: true }); f(); })();
 
 /* ---- Reveal při scrollu (jako lepshee.ai); bez JS je vše viditelné ---- */
