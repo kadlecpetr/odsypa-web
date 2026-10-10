@@ -312,6 +312,33 @@ input[type="range"] { accent-color: #fff; }
   body::after, mark, .aurora, .queue, .marquee, .hero-copy > * { animation: none !important; }
   .js .rv { opacity: 1; filter: none; transform: none; }
 }
+
+/* ---- struktura podle lepshee: výsledky, banner, programy ve 4 sloupcích, čísla, příběh ---- */
+.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.case { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 26px; display: grid; gap: 6px; align-content: start; transition: transform .3s var(--ease), border-color .3s ease; }
+.case:hover { transform: translateY(-4px); border-color: var(--sand); }
+.case .tag { font-family: var(--mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .1em; color: var(--sand); }
+.case h3 { margin-bottom: 14px; }
+.case .save { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 3.2vw, 2.5rem); line-height: 1.1; font-variant-numeric: tabular-nums; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.case .cap { color: var(--muted); font-size: .92rem; }
+.case .run { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); font-size: .92rem; color: var(--muted); }
+.case .run b { font-family: var(--mono); font-weight: 500; color: var(--ink); font-size: .85rem; }
+.banner { margin-top: 20px; border: 1px solid var(--line); border-radius: 20px; padding: clamp(22px, 4vw, 36px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; background-image: linear-gradient(120deg, rgba(139, 58, 229, .2), rgba(241, 54, 203, .1)); }
+.banner h3 { margin-bottom: 8px; }
+.banner p { color: var(--muted); max-width: 64ch; }
+.banner-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.banner-tags span { font-family: var(--mono); font-size: .8rem; border: 1px solid var(--line); border-radius: 999px; padding: .4em .9em; }
+.programs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; border-block: 1px solid var(--line); padding-block: 36px; }
+.stat { display: grid; gap: 6px; }
+.stat b { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 3.6vw, 2.8rem); line-height: 1.05; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat span { color: var(--muted); font-size: .95rem; }
+.founder { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.founder-text { display: grid; gap: 18px; font-size: 1.12rem; color: var(--muted); max-width: 60ch; }
+.founder-text .sign { font-family: var(--display); font-weight: 700; color: var(--ink); }
+@media (max-width: 1000px) { .programs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 800px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .founder, .banner { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 600px) { .programs, .cases { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -325,8 +352,8 @@ input[type="range"] { accent-color: #fff; }
     <nav class="nav-links" aria-label="Hlavní menu">
       <a href="#systemy">Systémy</a>
       <a href="#postup">Jak to stavíme</a>
-      <a href="#vypocet">Výpočet úspory</a>
-      <a href="#programy">Spolupráce</a>
+      <a href="#vysledky">Výsledky</a>
+      <a href="#programy">Programy</a>
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn-primary" href="#kontakt">Domluvit audit</a>
@@ -343,7 +370,7 @@ input[type="range"] { accent-color: #fff; }
         <p class="lead">Postavíme vám AI systémy na míru vašim procesům. Faktury, poptávky, dotazy zákazníků i nábor poběží samy. My je navrhneme, napojíme na nástroje, které už používáte, a zaučíme celý tým.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#kontakt">Domluvit úvodní audit</a>
-          <a class="btn btn-ghost" href="#systemy">Co umíme postavit</a>
+          <a class="btn btn-ghost" href="#systemy">Prohlédnout systémy</a>
         </div>
         <p class="motto">Lidi nenahrazujeme. Ulevíme jim od rutiny.</p>
       </div>
@@ -425,48 +452,24 @@ input[type="range"] { accent-color: #fff; }
     </div>
   </section>
 
-  <section class="block" id="vypocet">
+  <section class="block" id="vysledky">
     <div class="wrap">
       <div class="sec-head">
-        <span class="eyebrow">Výpočet úspory</span>
-        <h2>Kolik vás stojí rutina?</h2>
-        <p class="lead">Posuňte jezdce podle vaší firmy. Přesné číslo spočítáme při auditu, tohle je první odhad.</p>
+        <span class="eyebrow">Výsledky</span>
+        <h2>Čísla, ne sliby</h2>
+        <p class="lead">Takhle vypadá měsíční přínos jednotlivých systémů ve firmě se 40 zaměstnanci. Jde o modelový výpočet z typických hodnot, u vás ho při auditu spočítáme z vašich dat.</p>
       </div>
-
-      <div class="calc">
-        <div class="calc-in">
-          <div class="field">
-            <div class="field-top"><label for="c-people">Lidé, kteří dělají rutinu</label><output id="o-people" for="c-people">6 lidí</output></div>
-            <input type="range" id="c-people" min="1" max="60" value="6">
-          </div>
-          <div class="field">
-            <div class="field-top"><label for="c-hours">Hodin rutiny týdně na člověka</label><output id="o-hours" for="c-hours">12 h</output></div>
-            <input type="range" id="c-hours" min="1" max="40" value="12">
-            <small>Přepisování faktur, odpovědi na stejné dotazy, kopírování mezi systémy.</small>
-          </div>
-          <div class="field">
-            <div class="field-top"><label for="c-rate">Cena hodiny práce</label><output id="o-rate" for="c-rate">450 Kč</output></div>
-            <input type="range" id="c-rate" min="200" max="1500" step="25" value="450">
-            <small>Hrubá mzda včetně odvodů, přepočtená na hodinu.</small>
-          </div>
-          <div class="field">
-            <div class="field-top"><label for="c-share">Kolik z toho jde automatizovat</label><output id="o-share" for="c-share">60 %</output></div>
-            <input type="range" id="c-share" min="20" max="80" step="5" value="60">
-          </div>
-        </div>
-        <div class="calc-out" aria-live="polite">
-          <div>
-            <div class="cap">Uvolněno měsíčně</div>
-            <div class="big" id="r-month">84 400 Kč</div>
-          </div>
-          <div class="calc-rows">
-            <div><span>Hodin měsíčně</span><b id="r-hours">187 h</b></div>
-            <div><span>To je jako úvazků</span><b id="r-fte">1,2</b></div>
-            <div><span>Za rok</span><b id="r-year">1 012 800 Kč</b></div>
-          </div>
-          <p class="fine">Počítáme s 4,33 týdne v měsíci a 160 hodinami na plný úvazek. Uvolněný čas lidé věnují práci, kterou stroj neudělá.</p>
-          <a class="btn" href="#kontakt">Spočítat to přesně</a>
-        </div>
+      <div class="cases">
+        <article class="case"><span class="tag">Obchod</span><h3>Obchodní systém</h3><div class="save">85 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 2 500 Kč / měs.</b></div></article>
+        <article class="case"><span class="tag">Podpora</span><h3>Zákaznická podpora</h3><div class="save">60 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 3 000 Kč / měs.</b></div></article>
+        <article class="case"><span class="tag">Doklady</span><h3>Zpracování dokladů</h3><div class="save">70 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 2 000 Kč / měs.</b></div></article>
+        <article class="case"><span class="tag">Asistent</span><h3>Interní asistent</h3><div class="save">55 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 3 500 Kč / měs.</b></div></article>
+        <article class="case"><span class="tag">Nábor</span><h3>AI nábor</h3><div class="save">35 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 1 500 Kč / měs.</b></div></article>
+        <article class="case"><span class="tag">Obsah</span><h3>Obsah a marketing</h3><div class="save">40 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 2 500 Kč / měs.</b></div></article>
+      </div>
+      <div class="banner">
+        <div><h3>Vaše data zůstávají vaše</h3><p>Systém může běžet lokálně na vašem serveru, kde data nikdy neopustí firmu, nebo v cloudu v EU. Volbu doporučíme po auditu podle citlivosti dat a ke každému systému dodáme popis zpracování podle GDPR.</p></div>
+        <div class="banner-tags"><span>Lokálně u vás</span><span>Cloud v EU</span><span>GDPR</span></div>
       </div>
     </div>
   </section>
@@ -524,48 +527,42 @@ input[type="range"] { accent-color: #fff; }
     </div>
   </section>
 
-  <section class="block" style="padding-top:0">
+  <section class="block" id="programy">
     <div class="wrap">
       <div class="sec-head">
-        <span class="eyebrow">Bezpečnost</span>
-        <h2>Vaše data zůstávají vaše</h2>
+        <span class="eyebrow">Programy</span>
+        <h2>Začněte auditem. Pokračujte, až uvidíte čísla.</h2>
       </div>
-      <div class="data">
-        <div class="data-card"><h3>Lokálně u vás</h3><p>Systém i jazykový model poběží na vašem serveru. Data nikdy neopustí firmu. Hodí se pro smlouvy, mzdy a zdravotní údaje.</p></div>
-        <div class="data-card"><h3>V cloudu v EU</h3><p>Rychlejší start a nižší vstupní náklady. Používáme služby, které na vašich datech netrénují, a s daty v EU.</p></div>
-        <div class="data-card"><h3>Podle GDPR</h3><p>Ke každému systému dodáme popis, jaká data zpracovává a kdo k nim má přístup. Volbu provozu doporučíme po auditu.</p></div>
+      <div class="programs">
+        <div class="prog"><span class="tag">Pro začátek</span><h3>Audit</h3><p>Pro firmy, které chtějí vědět, kde AI dává smysl, než do něčeho investují.</p><ul><li>Mapa procesů a jejich nákladů</li><li>Pořadí priorit podle návratnosti</li></ul><p class="price">Pevná cena, známá předem</p></div>
+        <div class="prog featured"><span class="tag">Nejčastější</span><h3>Implementace</h3><p>Postavíme a nasadíme jeden až tři systémy s nejrychlejší návratností.</p><ul><li>Vývoj a napojení na vaše nástroje</li><li>Lokální nebo cloudový provoz</li><li>Zaučení týmu</li></ul><p class="price">Cena podle rozsahu, po auditu</p></div>
+        <div class="prog"><span class="tag">Dlouhodobě</span><h3>Transformace</h3><p>Pro větší firmy, které chtějí automatizovat postupně celý provoz se stálým týmem.</p><ul><li>Nové systémy každý kvartál</li><li>Údržba a ladění</li></ul><p class="price">Měsíční paušál</p></div>
+        <div class="prog"><span class="tag">Pro klienty</span><h3>Klub</h3><p>Setkání majitelů firem, které už automatizují. Sdílení zkušeností, postupů a kontaktů.</p><ul><li>Pravidelná setkání</li><li>Ověřené postupy z praxe</li></ul><p class="price">Po pozvání</p></div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="programy" style="padding-top:0">
+  <section class="block" style="padding-top:0">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="eyebrow">Spolupráce</span>
-        <h2>Začněte auditem. Pokračujte, až uvidíte čísla.</h2>
+      <div class="stats">
+        <div class="stat"><b>6</b><span>oblastí, které automatizujeme</span></div>
+        <div class="stat"><b>4</b><span>fáze od auditu po zaučený tým</span></div>
+        <div class="stat"><b>1–2 týdny</b><span>od úvodního hovoru k auditu</span></div>
+        <div class="stat"><b>4–8 týdnů</b><span>typicky do prvního ostrého provozu</span></div>
       </div>
-      <div class="programs">
-        <div class="prog">
-          <span class="tag">Pro začátek</span>
-          <h3>Audit</h3>
-          <p>Pro firmy, které chtějí vědět, kde AI dává smysl, než do něčeho investují.</p>
-          <ul><li>Mapa procesů a jejich nákladů</li><li>Pořadí priorit podle návratnosti</li><li>Doporučení, co nechat, jak je</li></ul>
-          <p class="price">Pevná cena, známá předem</p>
-        </div>
-        <div class="prog featured">
-          <span class="tag">Nejčastější</span>
-          <h3>Implementace</h3>
-          <p>Postavíme a nasadíme jeden až tři systémy s nejrychlejší návratností.</p>
-          <ul><li>Návrh, vývoj a napojení na vaše nástroje</li><li>Lokální nebo cloudový provoz</li><li>Zaučení týmu a návody</li></ul>
-          <p class="price">Cena podle rozsahu, po auditu</p>
-        </div>
-        <div class="prog">
-          <span class="tag">Dlouhodobě</span>
-          <h3>Partnerství</h3>
-          <p>Pro firmy, které chtějí automatizovat postupně celý provoz a mít na to stálý tým.</p>
-          <ul><li>Nové systémy každý kvartál</li><li>Údržba a ladění běžících systémů</li><li>Měsíční přehled úspor</li></ul>
-          <p class="price">Měsíční paušál</p>
-        </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap founder">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="eyebrow">Proč jsme postavili Odsýpá</span>
+        <h2>Neprodáváme prezentace.</h2>
+      </div>
+      <div class="founder-text">
+        <p>Většina AI nabídek končí radami v PDF nebo nástrojem, který nikdo nepoužívá. Firma pak platí za něco, co jí práci neulehčilo.</p>
+        <p>Proto stavíme jinak. Začneme tím, co vás stojí nejvíc času, postavíme to, nasadíme to naostro a naučíme lidi s tím pracovat. Pokud se něco nevyplatí, řekneme to dřív, než za to zaplatíte.</p>
+        <p class="sign">Tým Odsýpá</p>
       </div>
     </div>
   </section>
@@ -629,7 +626,7 @@ input[type="range"] { accent-color: #fff; }
   <div class="wrap">
     <a class="logo" href="#top" style="font-size:1.1rem">odsýpá</a>
     <nav aria-label="Patička">
-      <a href="#systemy">Systémy</a><a href="#postup">Jak to stavíme</a><a href="#vypocet">Výpočet</a><a href="#faq">FAQ</a><a href="#kontakt">Kontakt</a>
+      <a href="#systemy">Systémy</a><a href="#postup">Jak to stavíme</a><a href="#vysledky">Výsledky</a><a href="#programy">Programy</a><a href="#faq">FAQ</a>
     </nav>
     <span>ahoj@odsypa.cz · © 2026 Odsýpá</span>
   </div>
@@ -640,7 +637,7 @@ input[type="range"] { accent-color: #fff; }
 (function () {
   if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   document.documentElement.classList.add("js");
-  const els = document.querySelectorAll(".sec-head, .panel, .phase, .calc, .ba-col, .tbl-wrap, .data-card, .prog, .faq-grid > .faq, .lead-form, .final .wrap > div:first-child");
+  const els = document.querySelectorAll(".sec-head, .panel, .phase, .ba-col, .tbl-wrap, .case, .banner, .stat, .founder-text, .prog, .faq-grid > .faq, .lead-form, .final .wrap > div:first-child");
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
   els.forEach((el, i) => { el.classList.add("rv"); el.style.animationDelay = (i % 4) * 90 + "ms"; io.observe(el); });
 })();
@@ -705,27 +702,6 @@ SYSTEMS.forEach((s, i) => {
   tabsEl.appendChild(b);
 });
 renderPanel(0);
-
-/* ---- Kalkulačka ---- */
-const nf = new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 });
-const nf1 = new Intl.NumberFormat("cs-CZ", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const $ = id => document.getElementById(id);
-function lidi(n) { return n === 1 ? "člověk" : n < 5 ? "lidé" : "lidí"; }
-function calc() {
-  const p = +$("c-people").value, h = +$("c-hours").value, r = +$("c-rate").value, s = +$("c-share").value / 100;
-  $("o-people").textContent = `${p} ${lidi(p)}`;
-  $("o-hours").textContent = `${h} h`;
-  $("o-rate").textContent = `${nf.format(r)} Kč`;
-  $("o-share").textContent = `${Math.round(s * 100)} %`;
-  const hours = p * h * 4.33 * s;
-  const money = Math.round(hours * r / 100) * 100;
-  $("r-month").textContent = `${nf.format(money)} Kč`;
-  $("r-hours").textContent = `${nf.format(hours)} h`;
-  $("r-fte").textContent = nf1.format(hours / 160);
-  $("r-year").textContent = `${nf.format(money * 12)} Kč`;
-}
-["c-people", "c-hours", "c-rate", "c-share"].forEach(id => $(id).addEventListener("input", calc));
-calc();
 
 /* ---- Živá fronta v hero ---- */
 const INCOMING = [
