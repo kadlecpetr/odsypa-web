@@ -600,6 +600,22 @@ table { font-size: .95rem; }
 .trust-item b { font-weight: 600; }
 @media (max-width: 1000px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dash-grid { grid-template-columns: minmax(0, 1fr); } .trust { grid-template-columns: repeat(3, minmax(0, 1fr)); } .trust-intro { grid-column: 1 / -1; } .trust-item:nth-child(2) { border-left: 0; } }
 @media (max-width: 640px) { .trust { grid-template-columns: minmax(0, 1fr); } .trust-item { border-left: 0; border-top: 1px solid var(--line); } .kpi { padding: 12px; } .kpi .k-s { display: none; } .mock-bar .live { display: none; } }
+
+/* ---- Jak to stavíme: 2×2 s ilustracemi ---- */
+.psteps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: clamp(16px, 2vw, 24px); overflow: hidden; background: #060504; }
+.pstep { padding: clamp(20px, 3vw, 40px); display: grid; gap: 10px; align-content: start; min-width: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.pstep:nth-child(2n) { border-right: 0; } .pstep:nth-last-child(-n+2) { border-bottom: 0; }
+.pill-art { aspect-ratio: 400 / 250; max-height: 300px; width: 100%; display: grid; place-items: center; margin-bottom: clamp(8px, 2vw, 22px); perspective: 900px; }
+.ill { width: 100%; height: 100%; overflow: visible; transition: transform .6s var(--ease); transform: perspective(900px) rotateX(2deg); }
+.ill-tilt-l { transform: perspective(900px) rotateY(-9deg) rotateX(3deg); }
+.ill-tilt-r { transform: perspective(900px) rotateY(7deg) rotateX(4deg); }
+.pstep:hover .ill { transform: perspective(900px) rotateY(0) rotateX(0) scale(1.03); }
+.pnum { font-family: var(--mono); font-size: .7rem; letter-spacing: .25em; color: var(--sand); }
+.pstep h3 { font-size: clamp(1.4rem, 1rem + 1.2vw, 1.9rem); font-weight: 600; margin: 0; }
+.pstep p { color: var(--night-muted); max-width: 46ch; margin: 0; }
+.pmeta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+@media (max-width: 760px) { .psteps { grid-template-columns: minmax(0, 1fr); } .pstep { border-right: 0 !important; border-bottom: 1px solid var(--line) !important; } .pstep:last-child { border-bottom: 0 !important; } }
+@media (hover: none), (prefers-reduced-motion: reduce) { .pstep:hover .ill { transform: none; } }
 </style>
 </head>
 <body>
@@ -662,35 +678,73 @@ table { font-size: .95rem; }
         <h2>Od auditu po zaučený tým</h2>
         <p class="lead">Čtyři fáze. Žádné PDF prezentace, které skončí v šuplíku. Z každé fáze odcházíte s něčím, co funguje.</p>
       </div>
-      <div class="phases">
-        <div class="phase">
-          <span class="num">1</span>
-          <h3>Audit</h3>
-          <span class="dur">1–2 týdny</span>
-          <p>Projdeme s vámi procesy, změříme, kolik času a peněz stojí dnes, a najdeme, kde se automatizace vrátí nejrychleji.</p>
-          <p class="out"><em>Výstup</em>Mapa procesů a seznam priorit s odhadem návratnosti.</p>
-        </div>
-        <div class="phase">
-          <span class="num">2</span>
-          <h3>Návrh</h3>
-          <span class="dur">1 týden</span>
-          <p>Vybereme procesy s nejrychlejší návratností a navrhneme systém. Rozhodneme, jestli poběží u vás, nebo v cloudu.</p>
-          <p class="out"><em>Výstup</em>Technický návrh, rozpočet a termín ostrého spuštění.</p>
-        </div>
-        <div class="phase">
-          <span class="num">3</span>
-          <h3>Nasazení</h3>
-          <span class="dur">2–6 týdnů</span>
-          <p>Napojíme systém na vaše nástroje a data a spustíme ho naostro. Na začátku každý výstup kontroluje člověk.</p>
-          <p class="out"><em>Výstup</em>Běžící systém, žádné demo.</p>
-        </div>
-        <div class="phase">
-          <span class="num">4</span>
-          <h3>Zaučení</h3>
-          <span class="dur">průběžně</span>
-          <p>Naučíme tým se systémem pracovat a sledujeme, jak si vede. Co nefunguje, doladíme.</p>
-          <p class="out"><em>Výstup</em>Proškolený tým a návod pro každou roli.</p>
-        </div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+        <linearGradient id="gStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6d77a"/><stop offset=".35" stop-color="#8a5a0a"/><stop offset=".65" stop-color="#ecb427"/><stop offset="1" stop-color="#6a4506"/></linearGradient>
+        <linearGradient id="gPlate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241d11"/><stop offset="1" stop-color="#0b0805"/></linearGradient>
+        <linearGradient id="gFill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#c58f1f"/></linearGradient>
+        <linearGradient id="gText" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3cf"/><stop offset="1" stop-color="#e3b546"/></linearGradient>
+        <filter id="gShadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".7"/><feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#ecb427" flood-opacity=".18"/></filter>
+      </defs></svg>
+      <div class="psteps">
+        <article class="pstep"><div class="pill-art"><svg viewBox="0 0 400 250" role="img" aria-label="Ilustrace: audit procesů, celkem 240 hodin měsíčně" class="ill ill-tilt-l">
+  <g filter="url(#gShadow)"><rect x="60" y="18" width="280" height="214" rx="14" fill="url(#gPlate)" stroke="url(#gStroke)" stroke-width="2"/></g>
+  <rect x="76" y="34" width="34" height="34" rx="8" fill="#14100a" stroke="url(#gStroke)" stroke-width="1.5"/>
+  <path d="M85 59V50M93 59V44M101 59V53" stroke="url(#gFill)" stroke-width="4" stroke-linecap="round"/>
+  <text x="122" y="59" font-size="20" font-weight="700" fill="url(#gText)">Audit procesů</text>
+  <circle cx="314" cy="51" r="14" fill="#14100a" stroke="url(#gStroke)" stroke-width="1.5"/><path d="m307 51 5 5 9-10" fill="none" stroke="#f6d77a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-size="11" fill="#e9e1cc">
+    <rect x="76" y="80" width="248" height="28" rx="7" fill="#14100a" stroke="#ecb427" stroke-opacity=".28"/><text x="86" y="98">Doklady</text><rect x="148" y="90" width="132" height="8" rx="4" fill="#2a2316"/><rect x="148" y="90" width="118" height="8" rx="4" fill="url(#gFill)"/><text x="316" y="98" text-anchor="end">120 h</text>
+    <rect x="76" y="114" width="248" height="28" rx="7" fill="#14100a" stroke="#ecb427" stroke-opacity=".28"/><text x="86" y="132">Dotazy</text><rect x="148" y="124" width="132" height="8" rx="4" fill="#2a2316"/><rect x="148" y="124" width="79" height="8" rx="4" fill="url(#gFill)"/><text x="316" y="132" text-anchor="end">80 h</text>
+    <rect x="76" y="148" width="248" height="28" rx="7" fill="#14100a" stroke="#ecb427" stroke-opacity=".28"/><text x="86" y="166">Poptávky</text><rect x="148" y="158" width="132" height="8" rx="4" fill="#2a2316"/><rect x="148" y="158" width="40" height="8" rx="4" fill="url(#gFill)"/><text x="316" y="166" text-anchor="end">40 h</text>
+  </g>
+  <rect x="76" y="186" width="248" height="36" rx="9" fill="#100c07" stroke="url(#gStroke)" stroke-width="1.2"/>
+  <text x="88" y="208" font-size="8" letter-spacing="1.2" fill="#a89c82">CELKEM</text>
+  <text x="146" y="214" font-size="26" font-weight="700" fill="url(#gText)">240 h</text><text x="218" y="213" font-size="13" fill="#b7ac93">/ měsíc</text>
+</svg></div><span class="pnum">01</span><h3>Audit</h3><p>Zmapujeme vaše procesy a spočítáme, kolik vás dnes stojí. Než cokoli postavíme, víte, jestli se to vyplatí.</p><div class="pmeta"><span class="chip">1–2 týdny</span><span class="chip gold">Mapa procesů a priorit</span></div></article>
+        <article class="pstep"><div class="pill-art"><svg viewBox="0 0 400 250" role="img" aria-label="Ilustrace: vstupy z e-mailu, dokumentů a databáze vedou do návrhu systému" class="ill">
+  <g fill="none" stroke="#ecb427" stroke-width="2" stroke-linecap="round"><path d="M76 63C120 63 130 115 170 118"/><path d="M76 123H170"/><path d="M76 183C120 183 130 128 170 124"/><path d="M240 121H290"/></g>
+  <g fill="#f6d77a"><circle cx="76" cy="63" r="3"/><circle cx="76" cy="123" r="3"/><circle cx="76" cy="183" r="3"/><circle cx="170" cy="121" r="3"/><circle cx="290" cy="121" r="3"/></g>
+  <g filter="url(#gShadow)" fill="url(#gPlate)" stroke="url(#gStroke)" stroke-width="1.8">
+    <rect x="30" y="40" width="46" height="46" rx="10"/><rect x="30" y="100" width="46" height="46" rx="10"/><rect x="30" y="160" width="46" height="46" rx="10"/>
+    <rect x="170" y="86" width="70" height="70" rx="16"/><rect x="290" y="72" width="84" height="80" rx="14"/>
+  </g>
+  <g fill="none" stroke="url(#gFill)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="40" y="53" width="26" height="20" rx="3"/><path d="m40 56 13 10 13-10"/>
+    <path d="M44 110h12l6 6v20H44Z"/><path d="M49 124h8M49 130h8"/>
+    <ellipse cx="53" cy="171" rx="12" ry="5"/><path d="M41 171v26c0 3 5 5 12 5s12-2 12-5v-26M41 184c0 3 5 5 12 5s12-2 12-5"/>
+    <circle cx="205" cy="121" r="11"/><circle cx="205" cy="121" r="4"/><path d="M205 103v6M205 133v6M187 121h6M217 121h6M192 108l4 4M214 130l4 4M218 108l-4 4M196 130l-4 4"/>
+    <path d="M308 128v-12M318 128v-22M328 128v-16M338 128v-26" stroke-width="5"/>
+  </g>
+  <text x="332" y="146" font-size="10" text-anchor="middle" fill="#e9e1cc">Váš systém</text>
+  <rect x="286" y="162" width="92" height="26" rx="13" fill="#14100a" stroke="url(#gStroke)" stroke-width="1.4"/><circle cx="300" cy="175" r="7" fill="none" stroke="#f6d77a" stroke-width="1.5"/><path d="m296.5 175 2.5 2.5 4-5" fill="none" stroke="#f6d77a" stroke-width="1.5" stroke-linecap="round"/><text x="342" y="178.5" font-size="9" text-anchor="middle" fill="#e9e1cc">Návrh schválen</text>
+  <path d="M332 152v10" stroke="#ecb427" stroke-width="1.5" stroke-dasharray="2 3"/>
+</svg></div><span class="pnum">02</span><h3>Návrh</h3><p>Vybereme procesy s nejrychlejší návratností a navrhneme systém přesně na ně. Poběží u vás, nebo v cloudu.</p><div class="pmeta"><span class="chip">1 týden</span><span class="chip gold">Návrh, rozpočet, termín</span></div></article>
+        <article class="pstep"><div class="pill-art"><svg viewBox="0 0 400 250" role="img" aria-label="Ilustrace: časová osa nasazení, napojení, pilot a ostrý provoz" class="ill ill-tilt-r">
+  <g filter="url(#gShadow)"><rect x="30" y="28" width="340" height="196" rx="14" fill="url(#gPlate)" stroke="url(#gStroke)" stroke-width="2"/></g>
+  <text x="52" y="60" font-size="20" font-weight="700" fill="url(#gText)">Nasazení</text>
+  <g font-size="10" fill="#d9cfb5" text-anchor="middle"><text x="90" y="82">T1</text><text x="164" y="82">T2</text><text x="238" y="82">T3</text><text x="312" y="82">T4</text></g>
+  <path d="M60 92H342" stroke="#ecb427" stroke-opacity=".5" stroke-width="1.5"/>
+  <g fill="#14100a" stroke="#f6d77a" stroke-width="1.8"><circle cx="90" cy="92" r="5"/><circle cx="164" cy="92" r="5"/><circle cx="238" cy="92" r="5"/><circle cx="312" cy="92" r="5"/></g>
+  <g stroke="#ecb427" stroke-opacity=".14"><path d="M90 100V214M164 100V214M238 100V214M312 100V214"/></g>
+  <g font-size="11" fill="#e9e1cc">
+    <rect x="52" y="108" width="132" height="28" rx="14" fill="#16120a" stroke="url(#gStroke)" stroke-width="1.4"/><circle cx="68" cy="122" r="7" fill="none" stroke="#f6d77a" stroke-width="1.4"/><path d="M65 125l6-6" stroke="#f6d77a" stroke-width="1.4" stroke-linecap="round"/><text x="84" y="126">Napojení</text>
+    <rect x="130" y="146" width="132" height="28" rx="14" fill="#16120a" stroke="url(#gStroke)" stroke-width="1.4"/><circle cx="146" cy="160" r="7" fill="none" stroke="#f6d77a" stroke-width="1.4"/><path d="M143 164l6-8" stroke="#f6d77a" stroke-width="1.4" stroke-linecap="round"/><text x="162" y="164">Pilot</text>
+    <rect x="206" y="184" width="132" height="28" rx="14" fill="#16120a" stroke="url(#gStroke)" stroke-width="1.4"/><circle cx="222" cy="198" r="7" fill="none" stroke="#f6d77a" stroke-width="1.4"/><circle cx="222" cy="198" r="2.5" fill="#f6d77a"/><text x="238" y="202">Ostrý provoz</text>
+  </g>
+</svg></div><span class="pnum">03</span><h3>Nasazení</h3><p>Systém napojíme na vaše nástroje a data a spustíme v ostrém provozu. Žádné demo, ale běžící věc.</p><div class="pmeta"><span class="chip">2–6 týdnů</span><span class="chip gold">Běžící systém</span></div></article>
+        <article class="pstep"><div class="pill-art"><svg viewBox="0 0 400 250" role="img" aria-label="Ilustrace: váš tým dostává playbook a školení" class="ill">
+  <g fill="none" stroke="#ecb427" stroke-width="2" stroke-linecap="round"><path d="M202 112C226 112 226 70 250 70"/><path d="M202 150C226 150 226 170 250 170"/></g>
+  <g filter="url(#gShadow)" fill="url(#gPlate)" stroke="url(#gStroke)" stroke-width="2">
+    <rect x="30" y="58" width="172" height="136" rx="14"/><rect x="250" y="30" width="112" height="84" rx="12"/><rect x="250" y="130" width="104" height="82" rx="12"/>
+  </g>
+  <text x="116" y="94" font-size="18" font-weight="700" text-anchor="middle" fill="url(#gText)">Váš tým</text>
+  <g fill="url(#gFill)"><circle cx="116" cy="124" r="12"/><path d="M92 170c0-14 11-22 24-22s24 8 24 22Z"/><circle cx="76" cy="134" r="8.5" opacity=".8"/><path d="M60 172c0-10 7-16 16-16s16 6 16 16Z" opacity=".8"/><circle cx="156" cy="134" r="8.5" opacity=".8"/><path d="M140 172c0-10 7-16 16-16s16 6 16 16Z" opacity=".8"/></g>
+  <text x="306" y="52" font-size="12" font-weight="700" text-anchor="middle" fill="url(#gText)">Playbook</text>
+  <g stroke="url(#gFill)" stroke-width="3" stroke-linecap="round"><path d="M268 68H344M268 80H334M268 92H322"/></g>
+  <circle cx="302" cy="162" r="17" fill="#14100a" stroke="url(#gStroke)" stroke-width="1.6"/><path d="M297 154v16l14-8Z" fill="#f6d77a"/>
+  <text x="302" y="198" font-size="12" font-weight="700" text-anchor="middle" fill="url(#gText)">Školení</text>
+  <circle cx="352" cy="208" r="12" fill="#14100a" stroke="url(#gStroke)" stroke-width="1.6"/><path d="m346 208 4 4 7-8" fill="none" stroke="#f6d77a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></div><span class="pnum">04</span><h3>Zaučení</h3><p>Zaškolíme celý tým, aby systém uměl naplno využít. Dostanete návod pro každou roli, ne jen přístupy.</p><div class="pmeta"><span class="chip">průběžně</span><span class="chip gold">Proškolený tým</span></div></article>
       </div>
     </div>
   </section>
@@ -917,7 +971,7 @@ table { font-size: .95rem; }
 (function () {
   if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   document.documentElement.classList.add("js");
-  const els = document.querySelectorAll(".sec-head, .panel, .phase, .ba-col, .tbl-wrap, .case, .dash, .trust, .stat, .founder-text, .prog, .faq-grid > .faq, .lead-form, .final .wrap > div:first-child");
+  const els = document.querySelectorAll(".sec-head, .panel, .pstep, .ba-col, .tbl-wrap, .case, .dash, .trust, .stat, .founder-text, .prog, .faq-grid > .faq, .lead-form, .final .wrap > div:first-child");
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
   els.forEach((el, i) => { el.classList.add("rv"); el.style.animationDelay = (i % 4) * 90 + "ms"; io.observe(el); });
 })();
