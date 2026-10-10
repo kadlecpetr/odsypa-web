@@ -555,6 +555,51 @@ table { font-size: .95rem; }
 
 /* méně pohybu */
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .marquee { animation: none; } }
+
+/* ---- Výsledky: přehledový panel, grafy, karty ---- */
+.dash { margin-bottom: 20px; border-radius: 18px; }
+.mock-bar .live { margin-left: auto; font-style: normal; font-size: .68rem; color: var(--sand); border: 1px solid rgba(236, 180, 39, .35); border-radius: 999px; padding: .15em .7em; white-space: nowrap; }
+.dash-body { padding: clamp(14px, 2.2vw, 24px); display: grid; gap: clamp(12px, 1.8vw, 18px); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(8px, 1.4vw, 14px); }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.kpi .k-l { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.kpi b { font-family: var(--display); font-weight: 700; font-size: clamp(1.1rem, .8rem + 1vw, 1.55rem); font-variant-numeric: tabular-nums; line-height: 1.15; white-space: nowrap; }
+.kpi .k-s { font-size: .76rem; color: var(--muted); }
+.kpi.hot { border-color: rgba(236, 180, 39, .55); background-image: linear-gradient(135deg, rgba(236, 180, 39, .16), transparent 70%); }
+.kpi.hot b { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dash-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(10px, 1.6vw, 16px); }
+.chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.card-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.card-h h4 { margin: 0; font-family: var(--body); font-size: .9rem; font-weight: 600; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart text { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+.chart .tot { fill: var(--ink); font-weight: 500; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .76rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.hbars { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.hbars li { display: grid; gap: 6px; }
+.hb-top { display: flex; justify-content: space-between; gap: 8px; font-size: .82rem; }
+.hb-top span:last-child { font-family: var(--mono); font-size: .74rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hb-top span:last-child b { color: var(--sand); font-weight: 500; }
+.hb-track { position: relative; height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.hb-before { position: absolute; inset: 0 auto 0 0; background: rgba(255, 240, 200, .22); border-radius: 4px; }
+.hb-after { position: absolute; inset: 0 auto 0 0; background: var(--grad); border-radius: 4px; }
+.cases { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 0; }
+.case-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.case h3 { margin: 4px 0 12px; }
+.spark { height: 44px; margin-top: 14px; }
+.spark svg { display: block; width: 100%; height: 100%; }
+.trust { margin-top: 20px; display: grid; grid-template-columns: 1.3fr repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+.trust > div { padding: clamp(18px, 2.4vw, 28px); display: grid; gap: 8px; align-content: start; min-width: 0; }
+.trust-intro { background-image: linear-gradient(135deg, rgba(236, 180, 39, .14), transparent 75%); }
+.trust-intro h3 { margin: 4px 0 0; }
+.trust p { color: var(--muted); font-size: .92rem; margin: 0; }
+.trust-item { border-left: 1px solid var(--line); }
+.trust-item svg { width: 26px; height: 26px; fill: none; stroke: var(--sand); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 4px; }
+.trust-item b { font-weight: 600; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dash-grid { grid-template-columns: minmax(0, 1fr); } .trust { grid-template-columns: repeat(3, minmax(0, 1fr)); } .trust-intro { grid-column: 1 / -1; } .trust-item:nth-child(2) { border-left: 0; } }
+@media (max-width: 640px) { .trust { grid-template-columns: minmax(0, 1fr); } .trust-item { border-left: 0; border-top: 1px solid var(--line); } .kpi { padding: 12px; } .kpi .k-s { display: none; } .mock-bar .live { display: none; } }
 </style>
 </head>
 <body>
@@ -655,19 +700,46 @@ table { font-size: .95rem; }
       <div class="sec-head">
         <span class="eyebrow">Výsledky</span>
         <h2>Čísla, ne sliby</h2>
-        <p class="lead">Takhle vypadá měsíční přínos jednotlivých systémů ve firmě se 40 zaměstnanci. Jde o modelový výpočet z typických hodnot, u vás ho při auditu spočítáme z vašich dat.</p>
+        <p class="lead">Takhle vypadá přínos systémů ve firmě se 40 zaměstnanci. Jde o modelový výpočet z typických hodnot. U vás ho při auditu spočítáme z vašich dat.</p>
       </div>
+
+      <div class="dash mock" role="group" aria-label="Ukázka přehledu úspor, modelový příklad">
+        <div class="mock-bar"><i></i><i></i><i></i><span>přehled úspor · modelový příklad · firma se 40 zaměstnanci</span><em class="live">modelová data</em></div>
+        <div class="dash-body">
+          <div class="kpis">
+            <div class="kpi"><span class="k-l">Úspora měsíčně</span><b>345 000 Kč</b><span class="k-s">po zapojení všech šesti systémů</span></div>
+            <div class="kpi"><span class="k-l">Za rok</span><b>4,14 mil. Kč</b><span class="k-s">z uvolněné práce lidí</span></div>
+            <div class="kpi"><span class="k-l">Provoz systémů</span><b>od 15 000 Kč</b><span class="k-s">měsíčně za všech šest</span></div>
+            <div class="kpi hot"><span class="k-l">Čistý přínos</span><b>330 000 Kč</b><span class="k-s">měsíčně po odečtení provozu</span></div>
+          </div>
+          <div class="dash-grid">
+            <div class="chart-card">
+              <div class="card-h"><h4>Měsíční úspora podle systémů</h4><span class="chip gold">první rok</span></div>
+              <div id="res-chart" class="chart"></div>
+              <div id="res-legend" class="legend"></div>
+            </div>
+            <div class="chart-card">
+              <div class="card-h"><h4>Ruční práce, hodin měsíčně</h4><span class="chip">před → po</span></div>
+              <ul class="hbars" id="res-hbars"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="cases">
-        <article class="case"><span class="tag">Obchod</span><h3>Obchodní systém</h3><div class="save">85 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 2 500 Kč / měs.</b></div></article>
-        <article class="case"><span class="tag">Podpora</span><h3>Zákaznická podpora</h3><div class="save">60 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 3 000 Kč / měs.</b></div></article>
-        <article class="case"><span class="tag">Doklady</span><h3>Zpracování dokladů</h3><div class="save">70 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 2 000 Kč / měs.</b></div></article>
-        <article class="case"><span class="tag">Asistent</span><h3>Interní asistent</h3><div class="save">55 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 3 500 Kč / měs.</b></div></article>
-        <article class="case"><span class="tag">Nábor</span><h3>AI nábor</h3><div class="save">35 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 1 500 Kč / měs.</b></div></article>
-        <article class="case"><span class="tag">Obsah</span><h3>Obsah a marketing</h3><div class="save">40 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="run"><span>Provoz</span><b>od 2 500 Kč / měs.</b></div></article>
+        <article class="case"><div class="case-h"><span class="tag">Obchod</span><span class="chip ok">−68 % práce</span></div><h3>Obchodní systém</h3><div class="save">85 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="spark" data-v="20,28,35,52,60,72,85"></div><div class="run"><span>Provoz</span><b>od 2 500 Kč / měs.</b></div></article>
+        <article class="case"><div class="case-h"><span class="tag">Podpora</span><span class="chip ok">−58 % práce</span></div><h3>Zákaznická podpora</h3><div class="save">60 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="spark" data-v="10,18,30,38,47,55,60"></div><div class="run"><span>Provoz</span><b>od 3 000 Kč / měs.</b></div></article>
+        <article class="case"><div class="case-h"><span class="tag">Doklady</span><span class="chip ok">−73 % práce</span></div><h3>Zpracování dokladů</h3><div class="save">70 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="spark" data-v="15,30,44,55,62,68,70"></div><div class="run"><span>Provoz</span><b>od 2 000 Kč / měs.</b></div></article>
+        <article class="case"><div class="case-h"><span class="tag">Asistent</span><span class="chip ok">−61 % práce</span></div><h3>Interní asistent</h3><div class="save">55 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="spark" data-v="8,16,26,35,44,50,55"></div><div class="run"><span>Provoz</span><b>od 3 500 Kč / měs.</b></div></article>
+        <article class="case"><div class="case-h"><span class="tag">Nábor</span><span class="chip ok">−57 % práce</span></div><h3>AI nábor</h3><div class="save">35 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="spark" data-v="6,12,18,24,29,33,35"></div><div class="run"><span>Provoz</span><b>od 1 500 Kč / měs.</b></div></article>
+        <article class="case"><div class="case-h"><span class="tag">Obsah</span><span class="chip ok">−56 % práce</span></div><h3>Obsah a marketing</h3><div class="save">40 000 Kč</div><div class="cap">ušetří měsíčně</div><div class="spark" data-v="8,14,22,28,34,38,40"></div><div class="run"><span>Provoz</span><b>od 2 500 Kč / měs.</b></div></article>
       </div>
-      <div class="banner">
-        <div><h3>Vaše data zůstávají vaše</h3><p>Systém může běžet lokálně na vašem serveru, kde data nikdy neopustí firmu, nebo v cloudu v EU. Volbu doporučíme po auditu podle citlivosti dat a ke každému systému dodáme popis zpracování podle GDPR.</p></div>
-        <div class="banner-tags"><span>Lokálně u vás</span><span>Cloud v EU</span><span>GDPR</span></div>
+
+      <div class="trust">
+        <div class="trust-intro"><span class="eyebrow">Bezpečnost</span><h3>Vaše data zůstávají vaše</h3><p>Volbu provozu doporučíme po auditu podle citlivosti dat. Ke každému systému dodáme popis zpracování podle GDPR.</p></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg><b>Lokálně u vás</b><p>Systém i model běží na vašem serveru. Data nikdy neopustí firmu.</p></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.4-8.98A6 6 0 0 1 18 9.5a4 4 0 0 1-.5 8.5Z"/></svg><b>Cloud v EU</b><p>Rychlejší start a nižší vstupní náklady. Služby, které na vašich datech netrénují.</p></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.9 8.2 7 10 4.1-1.8 7-5.5 7-10V6Z"/><path d="m9 12 2 2 4-4"/></svg><b>GDPR</b><p>Přehled, jaká data se zpracovávají a kdo k nim má přístup.</p></div>
       </div>
     </div>
   </section>
@@ -845,7 +917,7 @@ table { font-size: .95rem; }
 (function () {
   if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   document.documentElement.classList.add("js");
-  const els = document.querySelectorAll(".sec-head, .panel, .phase, .ba-col, .tbl-wrap, .case, .banner, .stat, .founder-text, .prog, .faq-grid > .faq, .lead-form, .final .wrap > div:first-child");
+  const els = document.querySelectorAll(".sec-head, .panel, .phase, .ba-col, .tbl-wrap, .case, .dash, .trust, .stat, .founder-text, .prog, .faq-grid > .faq, .lead-form, .final .wrap > div:first-child");
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
   els.forEach((el, i) => { el.classList.add("rv"); el.style.animationDelay = (i % 4) * 90 + "ms"; io.observe(el); });
 })();
@@ -961,6 +1033,40 @@ SYSTEMS.forEach((s, i) => {
 renderPanel(0);
 
 const $ = id => document.getElementById(id);
+
+/* ---- Výsledky: grafy z modelových dat ---- */
+(function () {
+  const SYS = [ // název, plná úspora (tis. Kč), měsíc spuštění, hodin před, hodin po, barva
+    ["Obchod", 85, 2, 140, 45, "#ffd568"], ["Doklady", 70, 3, 150, 40, "#ecb427"], ["Podpora", 60, 4, 120, 50, "#d27f00"],
+    ["Asistent", 55, 5, 90, 35, "#f4e3b0"], ["Obsah", 40, 6, 80, 35, "#9a6a12"], ["Nábor", 35, 7, 70, 30, "#7a5a28"],
+  ];
+  const el = document.getElementById("res-chart"); if (!el) return;
+  const W = 640, H = 250, L = 44, R = 8, T = 18, B = 26, max = 400, bw = (W - L - R) / 12;
+  const y = v => T + (H - T - B) * (1 - v / max);
+  let g = "";
+  for (let v = 0; v <= max; v += 100) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" stroke-opacity="${v ? .12 : .3}"/><text x="${L - 8}" y="${y(v) + 3.5}" text-anchor="end">${v ? v + " tis." : "0"}</text>`;
+  for (let m = 1; m <= 12; m++) {
+    let acc = 0; const x = L + (m - 1) * bw + bw * .16, w = bw * .68;
+    SYS.forEach(s => {
+      const k = m < s[2] ? 0 : m === s[2] ? .5 : 1, v = s[1] * k; if (!v) return;
+      g += `<rect x="${x.toFixed(1)}" y="${y(acc + v).toFixed(1)}" width="${w.toFixed(1)}" height="${(y(acc) - y(acc + v)).toFixed(1)}" rx="1.5" fill="${s[5]}"/>`;
+      acc += v;
+    });
+    g += `<text x="${(x + w / 2).toFixed(1)}" y="${H - 8}" text-anchor="middle">${m}</text>`;
+    if (m === 12) g += `<text class="tot" x="${(x + w / 2).toFixed(1)}" y="${(y(acc) - 6).toFixed(1)}" text-anchor="middle">${acc} tis.</text>`;
+  }
+  g += `<text x="${(L + W - R) / 2}" y="${H + 12}" text-anchor="middle" style="display:none">měsíc</text>`;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Skládaný sloupcový graf: měsíční úspora roste během prvního roku z 0 na 345 tisíc korun, jak se spouštějí jednotlivé systémy" style="color:var(--ink)">${g}</svg>`;
+  document.getElementById("res-legend").innerHTML = SYS.map(s => `<span><i style="background:${s[5]}"></i>${s[0]}</span>`).join("") + '<span style="margin-left:auto">osa x: měsíc od zahájení</span>';
+  document.getElementById("res-hbars").innerHTML = SYS.map(s => `<li><div class="hb-top"><span>${s[0]}</span><span>${s[3]} h → <b>${s[4]} h</b></span></div><div class="hb-track"><i class="hb-before" style="width:${s[3] / 1.5}%"></i><i class="hb-after" style="width:${s[4] / 1.5}%"></i></div></li>`).join("");
+  document.querySelectorAll(".spark").forEach(n => {
+    const v = n.dataset.v.split(",").map(Number), w = 200, h = 44, mx = Math.max(...v);
+    const pts = v.map((p, i) => [i * w / (v.length - 1), h - 4 - (h - 10) * p / mx]);
+    const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    const id = "sg" + Math.random().toString(36).slice(2, 7), e = pts[pts.length - 1];
+    n.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecb427" stop-opacity=".35"/><stop offset="1" stop-color="#ecb427" stop-opacity="0"/></linearGradient></defs><path d="${d} L${w} ${h} L0 ${h}Z" fill="url(#${id})"/><path d="${d}" fill="none" stroke="#ecb427" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;
+  });
+})();
 
 /* ---- Formulář ----
    Pro ostrý web doplňte adresu, kam se poptávky posílají (např. Formspree, Make, vlastní API). */
