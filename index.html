@@ -1187,13 +1187,5 @@ $("lead-form").addEventListener("submit", async e => {
   document.querySelectorAll(".pill-art svg, #res-chart").forEach(n => io.observe(n));
 })();
 </script>
-<script>
-/* ilustrace kroků: na úzkém displeji ořez okrajů, ať je text větší */
-(function () {
-  const mq = matchMedia("(max-width: 640px)");
-  const fit = () => document.querySelectorAll(".pill-art svg").forEach(s => s.setAttribute("viewBox", mq.matches ? "36 10 328 230" : "0 0 400 250"));
-  fit(); (mq.addEventListener ? mq.addEventListener("change", fit) : mq.addListener(fit));
-})();
-</script>
 </body>
 </html>
