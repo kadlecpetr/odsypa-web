@@ -1130,5 +1130,47 @@ $("lead-form").addEventListener("submit", async e => {
   }
 });
 </script>
+<script>
+/* ---- animace mockupů: ilustrace kroků a graf úspor ---- */
+(function () {
+  if (!("IntersectionObserver" in window) || !Element.prototype.animate || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const ease = "cubic-bezier(.2,.7,.2,1)";
+  function playIll(svg) {
+    const kids = [...svg.children].filter(n => n.tagName !== "defs");
+    kids.slice(1).forEach(n => {
+      let y = 0; try { y = n.getBBox().y; } catch (e) {}
+      const delay = Math.max(0, y - 14) * 3.2, tr = !n.hasAttribute("transform");
+      n.animate(tr ? [{ opacity: 0, transform: "translateY(7px)" }, { opacity: 1, transform: "none" }] : [{ opacity: 0 }, { opacity: 1 }], { duration: 520, delay, easing: ease, fill: "backwards" });
+    });
+    svg.querySelectorAll("circle[stroke-dasharray]").forEach((c, i) => {
+      const p = c.getAttribute("stroke-dasharray").split(/\s+/).map(Number), tot = p[0] + p[1];
+      c.animate([{ strokeDasharray: "0 " + tot }, { strokeDasharray: p[0] + " " + p[1] }], { duration: 900, delay: 350 + i * 160, easing: ease, fill: "backwards" });
+    });
+    svg.querySelectorAll("rect[fill='url(#gFill)']").forEach(r => {
+      const h = +r.getAttribute("height");
+      if (h > 10 || +r.getAttribute("rx") === 0) return;
+      r.style.transformBox = "fill-box"; r.style.transformOrigin = "left center";
+      r.animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: 1100, delay: 500, easing: ease, fill: "backwards" });
+    });
+    svg.querySelectorAll("path[stroke='#1a1203']").forEach((p, i) => {
+      const L = 12; p.animate([{ strokeDasharray: L, strokeDashoffset: L }, { strokeDasharray: L, strokeDashoffset: 0 }], { duration: 420, delay: 400 + i * 260, easing: ease, fill: "backwards" });
+    });
+    svg.querySelectorAll("g[stroke-dasharray] path").forEach(p => {
+      p.animate([{ strokeDashoffset: 0 }, { strokeDashoffset: -10 }], { duration: 900, iterations: Infinity, easing: "linear" });
+    });
+    svg.querySelectorAll("circle[r='3.2']").forEach(c => {
+      c.animate([{ opacity: 1 }, { opacity: .25 }], { duration: 900, iterations: Infinity, direction: "alternate", easing: "ease-in-out" });
+    });
+  }
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return; io.unobserve(e.target);
+    if (e.target.matches("#res-chart")) {
+      const rs = [...e.target.querySelectorAll("svg rect[rx='1.5']")];
+      rs.forEach((r, i) => { r.style.transformBox = "fill-box"; r.style.transformOrigin = "center bottom"; r.animate([{ transform: "scaleY(0)", opacity: 0 }, { transform: "scaleY(1)", opacity: 1 }], { duration: 700, delay: Math.floor(i / 3) * 70 + (i % 6) * 25, easing: ease, fill: "backwards" }); });
+    } else playIll(e.target);
+  }), { threshold: 0.35 });
+  document.querySelectorAll(".pill-art svg, #res-chart").forEach(n => io.observe(n));
+})();
+</script>
 </body>
 </html>
