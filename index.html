@@ -1081,10 +1081,11 @@ const $ = id => document.getElementById(id);
     ["Asistent", 55, 5, 90, 35, "#f4e3b0"], ["Obsah", 40, 6, 80, 35, "#9a6a12"], ["Nábor", 35, 7, 70, 30, "#7a5a28"],
   ];
   const el = document.getElementById("res-chart"); if (!el) return;
-  const W = 640, H = 250, L = 44, R = 8, T = 18, B = 26, max = 400, bw = (W - L - R) / 12;
+  function draw() {
+  const W = Math.max(260, Math.round(el.clientWidth || 640)), H = W < 420 ? 220 : 250, L = W < 420 ? 36 : 44, R = 8, T = 18, B = 26, max = 400, bw = (W - L - R) / 12;
   const y = v => T + (H - T - B) * (1 - v / max);
   let g = "";
-  for (let v = 0; v <= max; v += 100) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" stroke-opacity="${v ? .12 : .3}"/><text x="${L - 8}" y="${y(v) + 3.5}" text-anchor="end">${v ? v + " tis." : "0"}</text>`;
+  for (let v = 0; v <= max; v += 100) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" stroke-opacity="${v ? .12 : .3}"/><text x="${L - 8}" y="${y(v) + 3.5}" text-anchor="end">${v ? (W < 420 ? v : v + " tis.") : "0"}</text>`;
   for (let m = 1; m <= 12; m++) {
     let acc = 0; const x = L + (m - 1) * bw + bw * .16, w = bw * .68;
     SYS.forEach(s => {
@@ -1097,7 +1098,10 @@ const $ = id => document.getElementById(id);
   }
   g += `<text x="${(L + W - R) / 2}" y="${H + 12}" text-anchor="middle" style="display:none">měsíc</text>`;
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Skládaný sloupcový graf: měsíční úspora roste během prvního roku z 0 na 345 tisíc korun, jak se spouštějí jednotlivé systémy" style="color:var(--ink)">${g}</svg>`;
-  document.getElementById("res-legend").innerHTML = SYS.map(s => `<span><i style="background:${s[5]}"></i>${s[0]}</span>`).join("") + '<span style="margin-left:auto">osa x: měsíc od zahájení</span>';
+  }
+  draw();
+  let lw = el.clientWidth; addEventListener("resize", () => { if (Math.abs(el.clientWidth - lw) > 8) { lw = el.clientWidth; draw(); } });
+  document.getElementById("res-legend").innerHTML = SYS.map(s => `<span><i style="background:${s[5]}"></i>${s[0]}</span>`).join("") + '<span style="margin-left:auto">osa y: tis. Kč · osa x: měsíc od zahájení</span>';
   document.getElementById("res-hbars").innerHTML = SYS.map(s => `<li><div class="hb-top"><span>${s[0]}</span><span>${s[3]} h → <b>${s[4]} h</b></span></div><div class="hb-track"><i class="hb-before" style="width:${s[3] / 1.5}%"></i><i class="hb-after" style="width:${s[4] / 1.5}%"></i></div></li>`).join("");
   document.querySelectorAll(".spark").forEach(n => {
     const v = n.dataset.v.split(",").map(Number), w = 200, h = 44, mx = Math.max(...v);
