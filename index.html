@@ -619,6 +619,21 @@ table { font-size: .95rem; }
 .pmeta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 @media (max-width: 760px) { .psteps { grid-template-columns: minmax(0, 1fr); } .pstep { border-right: 0 !important; border-bottom: 1px solid var(--line) !important; } .pstep:last-child { border-bottom: 0 !important; } }
 @media (hover: none), (prefers-reduced-motion: reduce) { .pstep:hover .ill { transform: none; } }
+
+/* porovnávací tabulka na mobilu: karty pod sebou */
+@media (max-width: 640px) {
+  .tbl-wrap { overflow: visible; background: none; border: 0; margin-inline: 0; }
+  table { min-width: 0; display: block; }
+  table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table tbody { display: grid; gap: 14px; }
+  table tr { display: block; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); overflow: hidden; }
+  table tbody th { display: block; padding: 14px 16px; font-size: 1rem; border-bottom: 1px solid var(--line); text-align: left; background: rgba(236, 180, 39, .06); }
+  table td { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; text-align: right; border: 0; }
+  table td + td { border-top: 1px solid var(--line); }
+  table td::before { content: attr(data-label); color: var(--muted); font-size: .85rem; text-align: left; }
+  table td.us { background: rgba(236, 180, 39, .12); font-weight: 700; }
+  table td.us::before { color: var(--ink); }
+}
 </style>
 </head>
 <body>
@@ -820,12 +835,12 @@ table { font-size: .95rem; }
             <tr><th scope="col"></th><th scope="col" class="us">Odsýpá</th><th scope="col">AI konzultant</th><th scope="col">Hotový nástroj</th><th scope="col">Vlastní tým</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Na míru vašim procesům</th><td class="us y">Ano</td><td class="y">Ano</td><td class="n">Ne</td><td class="y">Ano</td></tr>
-            <tr><th scope="row">Výstupem je běžící systém</th><td class="us y">Ano</td><td class="n">Ne, doporučení</td><td class="y">Ano</td><td class="n">Za dlouho</td></tr>
-            <tr><th scope="row">Zaučení celého týmu</th><td class="us y">Ano</td><td class="n">Částečně</td><td class="n">Ne</td><td class="n">Částečně</td></tr>
-            <tr><th scope="row">Provoz na vašem serveru</th><td class="us y">Ano</td><td class="n">Neřeší</td><td class="n">Ne</td><td class="y">Ano</td></tr>
-            <tr><th scope="row">Návratnost spočítaná předem</th><td class="us y">Ano</td><td class="n">Částečně</td><td class="n">Ne</td><td class="n">Ne</td></tr>
-            <tr><th scope="row">Do ostrého provozu</th><td class="us">Týdny</td><td>Měsíce</td><td>Dny</td><td>Měsíce</td></tr>
+            <tr><th scope="row">Na míru vašim procesům</th><td data-label="Odsýpá" class="us y">Ano</td><td data-label="AI konzultant" class="y">Ano</td><td data-label="Hotový nástroj" class="n">Ne</td><td data-label="Vlastní tým" class="y">Ano</td></tr>
+            <tr><th scope="row">Výstupem je běžící systém</th><td data-label="Odsýpá" class="us y">Ano</td><td data-label="AI konzultant" class="n">Ne, doporučení</td><td data-label="Hotový nástroj" class="y">Ano</td><td data-label="Vlastní tým" class="n">Za dlouho</td></tr>
+            <tr><th scope="row">Zaučení celého týmu</th><td data-label="Odsýpá" class="us y">Ano</td><td data-label="AI konzultant" class="n">Částečně</td><td data-label="Hotový nástroj" class="n">Ne</td><td data-label="Vlastní tým" class="n">Částečně</td></tr>
+            <tr><th scope="row">Provoz na vašem serveru</th><td data-label="Odsýpá" class="us y">Ano</td><td data-label="AI konzultant" class="n">Neřeší</td><td data-label="Hotový nástroj" class="n">Ne</td><td data-label="Vlastní tým" class="y">Ano</td></tr>
+            <tr><th scope="row">Návratnost spočítaná předem</th><td data-label="Odsýpá" class="us y">Ano</td><td data-label="AI konzultant" class="n">Částečně</td><td data-label="Hotový nástroj" class="n">Ne</td><td data-label="Vlastní tým" class="n">Ne</td></tr>
+            <tr><th scope="row">Do ostrého provozu</th><td data-label="Odsýpá" class="us">Týdny</td><td data-label="AI konzultant">Měsíce</td><td data-label="Hotový nástroj">Dny</td><td data-label="Vlastní tým">Měsíce</td></tr>
           </tbody>
         </table>
       </div>
@@ -1170,6 +1185,14 @@ $("lead-form").addEventListener("submit", async e => {
     } else playIll(e.target);
   }), { threshold: 0.35 });
   document.querySelectorAll(".pill-art svg, #res-chart").forEach(n => io.observe(n));
+})();
+</script>
+<script>
+/* ilustrace kroků: na úzkém displeji ořez okrajů, ať je text větší */
+(function () {
+  const mq = matchMedia("(max-width: 640px)");
+  const fit = () => document.querySelectorAll(".pill-art svg").forEach(s => s.setAttribute("viewBox", mq.matches ? "36 10 328 230" : "0 0 400 250"));
+  fit(); (mq.addEventListener ? mq.addEventListener("change", fit) : mq.addListener(fit));
 })();
 </script>
 </body>
