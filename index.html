@@ -653,6 +653,37 @@ table { font-size: .95rem; }
 
 .nav-links a.active { background: #1c1709 !important; color: #fff !important; box-shadow: 0 4px 14px -6px rgba(28,23,9,.5); }
 @media (max-width: 900px) { .nav-links a.active { background: transparent !important; color: var(--sand) !important; font-weight: 600; box-shadow: none; } }
+
+/* ---- animace ve stylu lepshee.ai ---- */
+.fit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 36px; }
+.fit-col { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(22px, 3vw, 34px); position: relative; overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s; }
+.fit-col:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px rgba(120,80,0,.35); }
+.fit-col h3 { font-size: 1.2rem; margin-bottom: 14px; }
+.fit-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fit-col li { padding-left: 1.7em; position: relative; color: var(--muted); }
+.fit-col.yes li::before { content: "✓"; position: absolute; left: 0; color: var(--ok); font-weight: 700; }
+.fit-col.no li::before { content: "–"; position: absolute; left: .3em; color: var(--muted); }
+@media (max-width: 800px) { .fit { grid-template-columns: minmax(0, 1fr); } }
+.badge .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #1a7f4b; margin-right: .5em; vertical-align: middle; animation: pulse-ring 2s ease-out infinite; }
+@keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(26,127,75,.55); } 100% { box-shadow: 0 0 0 9px rgba(26,127,75,0); } }
+.hero h1 .gold { background-size: 220% 100%; animation: text-shimmer 6s ease-in-out infinite; }
+.glow { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; z-index: 0; }
+.glow.a { width: 38vw; height: 38vw; right: -8vw; top: -10vw; background: rgba(255,190,90,.28); animation: drift-a 16s ease-in-out infinite; }
+.glow.b { width: 30vw; height: 30vw; left: -8vw; bottom: -8vw; background: rgba(255,150,110,.2); animation: drift-b 19s ease-in-out infinite; }
+.glow.c { width: 22vw; height: 22vw; left: 40vw; top: 20%; background: rgba(240,210,120,.18); animation: drift-a 23s ease-in-out infinite reverse; }
+.case, .prog, .stat, .phase { transition: transform .35s var(--ease), box-shadow .35s; }
+.case:hover, .prog:hover, .stat:hover { transform: translateY(-5px); box-shadow: 0 26px 50px -30px rgba(120,80,0,.4); }
+.case, .prog { position: relative; overflow: hidden; }
+.case::after, .prog::after { content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,220,140,.35), transparent); transform: skewX(-18deg); transition: left .8s var(--ease); pointer-events: none; }
+.case:hover::after, .prog:hover::after { left: 130%; }
+.btn-primary, .btn-dark { position: relative; overflow: hidden; }
+.btn-primary::after, .btn-dark::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); transform: translateX(-120%); animation: btn-sweep 4.5s ease-in-out infinite; pointer-events: none; }
+@keyframes btn-sweep { 0%, 60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+.hero h1 .ch { display: inline-block; opacity: 0; animation: char-in .7s var(--ease) forwards; }
+.hero h1.split .gold { background: none; animation: none; color: inherit; }
+.hero h1.split .gold .ch { background: linear-gradient(100deg, #c8860a, #d99a1c 50%, #b87408); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@keyframes char-in { from { opacity: 0; transform: translateY(.45em); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@media (prefers-reduced-motion: reduce) { .glow, .badge .dot, .hero h1 .gold, .btn-primary::after, .btn-dark::after { animation: none !important; } .hero h1 .ch { opacity: 1; animation: none; } }
 </style>
 </head>
 <body>
@@ -665,6 +696,7 @@ table { font-size: .95rem; }
     </a>
     <nav class="nav-links" id="nav-links" aria-label="Hlavní menu">
       <a href="#top">Úvod</a>
+      <a href="#pro-koho">Pro koho</a>
       <a href="#systemy">Systémy</a>
       <a href="#postup">Jak to stavíme</a>
       <a href="#vysledky">Výsledky</a>
@@ -679,9 +711,10 @@ table { font-size: .95rem; }
 <main id="top">
   <section class="hero">
     <div class="smoke" aria-hidden="true"></div>
+    <div class="glow a" aria-hidden="true"></div><div class="glow b" aria-hidden="true"></div><div class="glow c" aria-hidden="true"></div>
     <div class="wrap hero-main">
       <div class="hero-copy">
-        <div class="badge"><b>odsýpá</b><span>Audit za 1–2 týdny, provoz za 4–8</span></div>
+        <div class="badge"><b><i class="dot"></i>odsýpá</b><span>Audit za 1–2 týdny, provoz za 4–8</span></div>
         <h1>Rutinu ať dělá stroj.<br><span class="gold">Vaši lidé ať dělají byznys.</span></h1>
         <p class="lead">Nejdřív spočítáme, jestli se AI vyplatí. Pak ji postavíme, nasadíme a zaškolíme váš tým. Za týdny, ne za měsíce. Zrychlujeme a zefektivňujeme práci lidí.</p>
         <div class="cta-row">
@@ -689,6 +722,27 @@ table { font-size: .95rem; }
           <a class="btn btn-outline" href="#systemy"><span class="gold" aria-hidden="true">↓</span> Prohlédnout systémy</a>
         </div>
         <ul class="ticks"><li>Nejdřív spočítáme návratnost</li><li>Ostrý provoz v řádu týdnů</li><li>Zaškolení týmu v ceně</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="pro-koho">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Pro koho to je</span>
+        <h2>Pro firmy, které chtějí výsledky, ne experimenty</h2>
+        <p class="lead">Dává to smysl tam, kde se stejná práce opakuje ve velkém objemu a každá ušetřená hodina má měřitelnou hodnotu.</p>
+      </div>
+      <div class="fit">
+        <div class="fit-col yes"><h3>Jste u nás správně, pokud…</h3><ul>
+          <li>každý den zpracováváte větší množství dokladů, poptávek nebo e-mailů,</li>
+          <li>vaši lidé ztrácejí čas přepisováním dat mezi systémy,</li>
+          <li>chcete vědět, kolik vám automatizace ušetří, dřív než do ní investujete,</li>
+          <li>potřebujete řešení v provozu za týdny, ne roční projekt.</li></ul></div>
+        <div class="fit-col no"><h3>Zatím to nebude pro vás, pokud…</h3><ul>
+          <li>hledáte jen obecného chatbota bez napojení na vaše procesy,</li>
+          <li>práce se u vás opakuje jen výjimečně,</li>
+          <li>nechcete, aby se výsledek dal změřit.</li></ul></div>
       </div>
     </div>
   </section>
@@ -1220,6 +1274,22 @@ $("lead-form").addEventListener("submit", async e => {
     links.forEach(a=>a.classList.toggle("active",a===cur));
   }
   addEventListener("scroll",upd,{passive:true}); addEventListener("resize",upd); upd();
+})();
+</script>
+<script>
+(function(){
+  const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!rm){ // nadpis po písmenech
+    let i=0; document.querySelectorAll(".hero h1").forEach(h=>{ h.classList.add("split");
+      (function walk(n){ [...n.childNodes].forEach(c=>{
+        if(c.nodeType===3){ const f=document.createDocumentFragment(); [...c.textContent].forEach(ch=>{ if(ch===" "){f.appendChild(document.createTextNode(" "));} else { const sp=document.createElement("span"); sp.className="ch"; sp.textContent=ch; sp.style.animationDelay=(i++*28)+"ms"; f.appendChild(sp);} }); c.replaceWith(f); }
+        else if(c.nodeType===1 && c.tagName!=="BR") walk(c); }); })(h);
+    });
+    // počítání čísel
+    const els=[...document.querySelectorAll(".stat b")].filter(b=>/^\d+$/.test(b.textContent.trim()));
+    if("IntersectionObserver" in window) { const io=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return; io.unobserve(e.target);
+      const t=+e.target.textContent, st=performance.now(); (function f(n){ const k=Math.min(1,(n-st)/1100); e.target.textContent=Math.round(t*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(f); })(st); }),{threshold:.6}); els.forEach(b=>io.observe(b)); }
+  }
 })();
 </script>
 </body>
