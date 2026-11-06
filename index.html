@@ -197,7 +197,7 @@ body::after { content: ""; position: fixed; inset: -50%; z-index: 100; pointer-e
 
 /* ---- úvod podle předlohy: černá, zlatý zrnitý kouř, vystředěný nadpis ---- */
 .nav { background: transparent; backdrop-filter: none; border-bottom: 0; position: fixed; left: 0; right: 0; }
-.nav.solid { background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav.solid { background: var(--bg); backdrop-filter: none; border-bottom: 1px solid var(--line); box-shadow: 0 4px 18px rgba(60,40,0,.08); }
 .nav .wrap { display: grid; grid-template-columns: 1fr auto 1fr; }
 .nav .btn { justify-self: end; }
 .nav-links a { font-size: .88rem; }
@@ -251,7 +251,7 @@ section.block { padding-block: clamp(56px, 8vw, 104px); }
   .nav .wrap { display: flex; justify-content: space-between; gap: 10px; }
   .nav .btn { margin-left: auto; }
   .burger { display: grid; }
-  .nav-links { display: none; position: absolute; top: calc(100% + 1px); left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px var(--gutter) 16px; background: color-mix(in srgb, var(--bg) 96%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .nav-links { display: none; position: absolute; top: calc(100% + 1px); left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px var(--gutter) 16px; background: var(--bg); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
   .nav.open .nav-links { display: flex; }
   .nav-links a { padding: 14px 4px; font-size: 1rem; border-bottom: 1px solid var(--line); color: var(--ink); }
   .nav-links a:last-child { border-bottom: 0; }
