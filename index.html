@@ -681,7 +681,7 @@ table { font-size: .95rem; }
 @keyframes btn-sweep { 0%, 60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
 .hero h1 .ch { display: inline-block; opacity: 0; animation: char-in .7s var(--ease) forwards; }
 .hero h1.split .gold { background: none; animation: none; color: inherit; }
-.hero h1.split .gold .ch { background: linear-gradient(100deg, #c8860a, #d99a1c 50%, #b87408); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero h1.split .gold .ch { padding: .22em .06em .3em; margin: -.22em -.06em -.3em; background: linear-gradient(100deg, #c8860a, #d99a1c 50%, #b87408); -webkit-background-clip: text; background-clip: text; color: transparent; }
 @keyframes char-in { from { opacity: 0; transform: translateY(.45em); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
 @media (prefers-reduced-motion: reduce) { .glow, .badge .dot, .hero h1 .gold, .btn-primary::after, .btn-dark::after { animation: none !important; } .hero h1 .ch { opacity: 1; animation: none; } }
 
@@ -1292,10 +1292,11 @@ $("lead-form").addEventListener("submit", async e => {
 (function(){
   const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
   if(!rm){ // nadpis po písmenech
-    let i=0; document.querySelectorAll(".hero h1").forEach(h=>{ h.classList.add("split");
+    let i=0; document.querySelectorAll(".hero h1").forEach(h=>{ const orig=h.innerHTML; h.classList.add("split");
       (function walk(n){ [...n.childNodes].forEach(c=>{
         if(c.nodeType===3){ const f=document.createDocumentFragment(); c.textContent.split(/( )/).forEach(word=>{ if(word===" "||word===""){ if(word) f.appendChild(document.createTextNode(" ")); return; } const w=document.createElement("span"); w.className="w"; [...word].forEach(ch=>{ const sp=document.createElement("span"); sp.className="ch"; sp.textContent=ch; sp.style.animationDelay=(i++*28)+"ms"; w.appendChild(sp); }); f.appendChild(w); }); c.replaceWith(f); }
         else if(c.nodeType===1 && c.tagName!=="BR") walk(c); }); })(h);
+      setTimeout(()=>{ h.classList.remove("split"); h.innerHTML=orig; }, i*28+900);
     });
     // počítání čísel
     const els=[...document.querySelectorAll(".stat b")].filter(b=>/^\d+$/.test(b.textContent.trim()));
