@@ -650,6 +650,9 @@ table { font-size: .95rem; }
   .nav-links a:hover { background: #fff; }
 }
 @media (max-width: 560px) { .badge span { font-size: .78rem; } .ticks { flex-direction: column; align-items: center; gap: 6px; } }
+
+.nav-links a.active { background: #1c1709 !important; color: #fff !important; box-shadow: 0 4px 14px -6px rgba(28,23,9,.5); }
+@media (max-width: 900px) { .nav-links a.active { background: transparent !important; color: var(--sand) !important; font-weight: 600; box-shadow: none; } }
 </style>
 </head>
 <body>
@@ -661,6 +664,7 @@ table { font-size: .95rem; }
       odsýpá
     </a>
     <nav class="nav-links" id="nav-links" aria-label="Hlavní menu">
+      <a href="#top">Úvod</a>
       <a href="#systemy">Systémy</a>
       <a href="#postup">Jak to stavíme</a>
       <a href="#vysledky">Výsledky</a>
@@ -1203,6 +1207,19 @@ $("lead-form").addEventListener("submit", async e => {
     } else playIll(e.target);
   }), { threshold: 0.35 });
   document.querySelectorAll(".pill-art svg, #res-chart").forEach(n => io.observe(n));
+})();
+</script>
+<script>
+(function(){
+  const links=[...document.querySelectorAll(".nav-links a")];
+  const map=links.map(a=>({a,el:a.getAttribute("href")==="#top"?null:document.querySelector(a.getAttribute("href"))}));
+  function upd(){
+    const y=window.scrollY+window.innerHeight*0.35; let cur=links[0];
+    map.forEach(m=>{ if(m.el && m.el.getBoundingClientRect().top+window.scrollY<=y) cur=m.a; });
+    if(window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-4){ const k=map.find(m=>m.el&&m.el.id==="kontakt"); if(k) cur=k.a; }
+    links.forEach(a=>a.classList.toggle("active",a===cur));
+  }
+  addEventListener("scroll",upd,{passive:true}); addEventListener("resize",upd); upd();
 })();
 </script>
 </body>
